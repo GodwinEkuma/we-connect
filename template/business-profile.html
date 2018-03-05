@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./css/custom.css">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700|Nunito:400,700" rel="stylesheet">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+
+    <link href="./images/favicon_32.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="./images/favicon_256.ico" rel="apple-touch-icon">
+
+    <title>Weconnect: giving your business a reach</title>
+</head>
+
+<body>
+    <!-- Header section -->
+    <header class="business-navigation ">
+        <div class="container-fluid navigation-content">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <a class="navbar-brand" href="#">
+                    <img src="./images/logo-white.svg" alt="weconnect logo" height="50" class="navbar-brand-image"> Weconnect</a>
+
+
+                <form class="business-search-form" style="margin-left:85px;">
+                    <div class="form-row  ">
+                        <div class="col no-gutters">
+                            <input type="text" class="search-bar" placeholder="Search for businesses">
+                        </div>
+                        <div class="col no-gutters">
+                            <input type="text" class="search-bar" placeholder="Location">
+                        </div>
+                        <a href="#" role="button" onclick="openSearch()" class="search-submit">
+                            <i class="fas fa-search search-icon"></i>
+                        </a>
+
+                    </div>
+
+                </form>
+
+
+
+
+                <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse " id="navbarSupportedContent">
+                    <div class="ml-auto">
+                            <ul class="navbar-nav mr-auto">
+                                    <li class="nav-item ">
+                                            <a href="#" class="mr-md-4 sign-in-link">Sign in</a>
+                                    </li>
+                                    <li class="nav-item sign-up-nav">
+                                            <a href="#" class="business-sign-up-link">Create account</a>
+                                    </li>
+                            </ul>
+                    </div>
+
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- Header section /-->
+    <div class="mobile-search-form" id="mobileSearch">
+        <a role="button" class="closebtn" onclick="closeSearch()">&times;</a>
+        <form>
+            <div class="d-flex flex-column mt-4 mb-2 p-4">
+                <div>
+                    <input type="text" class="search-bar mb-3" placeholder="Search for businesses">
+                </div>
+                <div class="d-flex flex-column">
+                    <input type="text" class="search-bar mb-3" placeholder="Location">
+                    <a href="#" role="button" class="mobile-search-submit mx-auto">Search
+                    </a>
+                </div>
+
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <section style="background-color:#f5f5f5" id="search-overlay">
+        <div class="container">
+
+            <div class="mx-auto py-5 col-9">
+                <div class=" mt-3" style="background-color:#fff;">
+                    <nav class="profile-tabs">
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link w-25 active" id="nav-details-tab" data-toggle="tab" href="#nav-details" role="tab" aria-controls="nav-details"
+                                aria-selected="true">Business Details</a>
+                            <a class="nav-item nav-link w-25" id="nav-product-tab" data-toggle="tab" href="#nav-product" role="tab" aria-controls="nav-product"
+                                aria-selected="false">Products/Services</a>
+                            <a class="nav-item nav-link w-25" id="nav-reviews-tab" data-toggle="tab" href="#nav-reviews" role="tab" aria-controls="nav-reviews"
+                                aria-selected="false">Reviews</a>
+                            <a class="nav-item nav-link w-25" id="nav-write-tab" data-toggle="tab" href="#nav-write" role="tab" aria-controls="nav-write"
+                                aria-selected="false">Write Review</a>
+
+
+                        </div>
+                    </nav>
+                    <div class="tab-content px-3 pt-4 pb-5" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-details" role="tabpanel" aria-labelledby="nav-details-tab">
+                            <div class="mb-5">
+                                <h4>Business Name</h4>
+                                <p>Instrap Business Solutions Limited</p>
+                            </div>
+                            <div>
+                                <div class="form-row mb-5">
+                                    <div class="col-md-6">
+                                        <h4>Email Address</h4>
+                                        <p>godwinekuma@gmail.com</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4>Email Address</h4>
+                                        <p>godwinekuma@gmail.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                    <div class="form-row mb-5">
+                                        <div class="col-md-6">
+                                            <h4>Business Category</h4>
+                                            <p>Web Development & Graphics </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h4>Website</h4>
+                                            <p>https://Instrap.com</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            <div class="mb-5">
+                                <h4>Business Description</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                            </div>
+                            <div class="mb-5">
+                                    <h4>Business Address</h4>
+                                    <p>15 Abayomi Street, Surulere, Lagos.</p>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="nav-product" role="tabpanel" aria-labelledby="nav-product-tab">
+                                <div class="form-row mb-5">
+                                        <div class="col-md-4">
+                                            <h4>Web Design</h4>
+                                            
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                        </div>
+                                </div>
+                                <div class="form-row mb-5">
+                                        <div class="col-md-4">
+                                            <h4>Web Design</h4>
+                                            
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                        </div>
+                                </div>
+                                <div class="form-row mb-5">
+                                        <div class="col-md-4">
+                                            <h4>Web Design</h4>
+                                            
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                        </div>
+                                </div>
+                                <div class="form-row mb-5">
+                                        <div class="col-md-4">
+                                            <h4>Web Design</h4>
+                                            
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                        </div>
+                                </div>
+                                <div class="form-row mb-5">
+                                        <div class="col-md-4">
+                                            <h4>Web Design</h4>
+                                            
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                        </div>
+                                </div>
+                        </div>
+                        <div class="tab-pane fade" id="nav-reviews" role="tabpanel" aria-labelledby="nav-reviews-tab">
+                                <div class="card mb-3">
+                                        <div class="card-body">
+                                            <h4 class="card-name mb-3">Godwin Ekuma</h4>
+                                            <h5 class="card-title">Excellent Web Design Service</h5>
+                                            <p class="card-text">My Website was given a sleek and modern design. You guys rocks!</p>
+        
+                                        </div>
+                                        <div class="card-footer text-muted">
+                                            02 March, 2016
+                                        </div>
+                                    </div>
+                                    <div class="card mb-3">
+                                            <div class="card-body">
+                                                <h4 class="card-name mb-3">Godwin Ekuma</h4>
+                                                <h5 class="card-title">Excellent Web Design Service</h5>
+                                                <p class="card-text">My Website was given a sleek and modern design. You guys rocks!</p>
+            
+                                            </div>
+                                            <div class="card-footer text-muted">
+                                                02 March, 2016
+                                            </div>
+                                        </div>
+                                        <div class="card mb-3">
+                                                <div class="card-body">
+                                                    <h4 class="card-name mb-3">Godwin Ekuma</h4>
+                                                    <h5 class="card-title">Excellent Web Design Service</h5>
+                                                    <p class="card-text">My Website was given a sleek and modern design. You guys rocks!</p>
+                
+                                                </div>
+                                                <div class="card-footer text-muted">
+                                                    02 March, 2016
+                                                </div>
+                                            </div>
+                                            <div class="card mb-3">
+                                                    <div class="card-body">
+                                                        <h4 class="card-name mb-3">Godwin Ekuma</h4>
+                                                        <h5 class="card-title">Excellent Web Design Service</h5>
+                                                        <p class="card-text">My Website was given a sleek and modern design. You guys rocks!</p>
+                    
+                                                    </div>
+                                                    <div class="card-footer text-muted">
+                                                        02 March, 2016
+                                                    </div>
+                                                </div>
+                                                <div class="card mb-3">
+                                                        <div class="card-body">
+                                                            <h4 class="card-name mb-3">Godwin Ekuma</h4>
+                                                            <h5 class="card-title">Excellent Web Design Service</h5>
+                                                            <p class="card-text">My Website was given a sleek and modern design. You guys rocks!</p>
+                        
+                                                        </div>
+                                                        <div class="card-footer text-muted">
+                                                            02 March, 2016
+                                                        </div>
+                                                    </div>
+                        </div>
+                        <div class="tab-pane fade" id="nav-write" role="tabpanel" aria-labelledby="nav-write-tab">
+                                <div class="form-group">
+                                        <label for="review_title">Title of your Review *</label>
+                                        <input type="text"  name="review_title" class="form-control form-control-lg" placeholder="Highlight an interesting detail" required>
+                                </div>
+                                <div class="form-group">
+                                        <label for="reviewer">Name</label>
+                                        <input type="text"  name="reviewer" class="form-control form-control-lg" placeholder="Your name" required>
+                                </div>
+                                <div class="form-group">
+                                        <label for="review_summary">Review</label>
+                                        <textarea style="height: 125px;" name="review_summary" class="form-control" placeholder="Briefly summarise your experience with this business" required></textarea>
+                                </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="./js/main.js"></script>
+</body>
+
+</html>

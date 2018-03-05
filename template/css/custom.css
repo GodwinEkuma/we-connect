@@ -1,0 +1,352 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+}
+h1,h2,h3,h4,h5,h6{
+    font-family: 'Nunito', sans-serif;
+}
+h1{
+    font-size: 66px;
+    color: #fff;
+    margin-bottom: 26px;
+}
+h2{
+    font-size: 30px;
+    color: hsla(0,0%,100%,.8);
+    letter-spacing: 0;
+    line-height: 46px;
+    margin-bottom: 54px;
+}
+p, a, span{
+    font-family: 'Lora', serif;
+}
+a:hover{
+    text-decoration: none;
+}
+.navigation{
+    position: absolute;
+    width: 100%;
+}
+.business-navigation{
+    background-color: #0078D7;
+}
+.navbar-brand{
+    color: #fff !important;
+    font-weight: 700;
+}
+.nav-color{
+    color: #0078D7 !important;
+}
+.sign-in-link{
+    color: #fff !important;
+    font-size: 18px;
+}
+.sign-up-link{
+      background-color: #0078D7;
+    color: #fff;
+    font-size: 18px;
+    letter-spacing: 0;
+    padding: 10px 10px 10px;
+    text-align: center;
+    -webkit-transition: box-shadow .3s;
+    transition: box-shadow .3s;
+    cursor: pointer;
+}
+.business-sign-up-link{
+    background-color: #fff;
+  color: #0078D7;
+  font-size: 18px;
+  letter-spacing: 0;
+  padding: 10px 10px 10px;
+  text-align: center;
+  -webkit-transition: box-shadow .3s;
+  transition: box-shadow .3s;
+  cursor: pointer;
+}
+.hero{
+    background-color: #0078D7;
+    background-image: url('../images/hero_banner.jpg');
+    background-position: center center;
+    background-size: cover;
+    padding: 100px 0 150px;
+    
+}
+
+.search-bar{
+    padding: 11px 15px;
+    width: 300px;
+    border: none;
+    outline: none;
+}
+.business-search-bar{
+    padding: 11px 15px;
+    border: none;
+    outline: none;
+
+}
+
+.search-submit{
+    display: inline-block;
+    background-color: #fff;
+    color: #0078D7;
+    text-align: center;
+    width: 60px;
+    padding: 11px 15px;
+    
+
+}
+.mobile-search-submit{
+    display: inline-block;
+    background-color: #fff;
+    color: #0078D7;
+    text-align: center;
+    padding: 11px 15px;
+    
+
+}
+
+.primary-heading{
+    color: #0078D7;
+    text-align: center;
+    font-size: 45px;
+}
+.sign-in{
+    min-height: 100vh;
+    width: 100%;
+    background-color: #0078D7;
+    padding: 7.5% 0 7.5% 0;
+}
+.sign-up{
+    min-height: 100vh;
+    width: 100%;
+    background-color: #0078D7;
+    padding: 2% 0 7.5% 0;
+}
+.sign-up .home-link, .sign-in .home-link{
+    margin-bottom: 20px;
+}
+.sign-up-form, .sign-in-form{
+    background-color: #fff;
+    padding: 25px;
+    width: 400px;
+}
+.form-control{
+    border-radius: 0px !important;
+    outline: none;
+}
+
+.dashboard-navigation{
+    width: 15%;
+    background-color: #0078D7;
+    color: #fff;
+    position: fixed;
+    height: 100vh;
+}
+.dashboard-navigation .nav-link{
+    padding: 25px 15px;
+    color: hsla(0,0%,100%,.8);
+}
+.dashboard-navigation .nav-link:hover{
+    color: #fff;
+    border-left: 2px solid #fff;
+}
+.dashboard-navigation .nav-link:active{
+    color: #fff;
+    border-left: 2px solid #fff;
+}
+.dashboard-main{
+    width: 85%;
+    margin-left: 15%;
+    color:#333b4d;
+    
+}
+.open-menu{
+    display: none;
+}
+.navbar-profile-image{
+	height: 30px;
+	max-height:30px;
+	width: 30px;
+	max-width: 30px;
+}
+.dashboard-main-content{
+    background-color: #f5f5f5;
+    min-height: 100vh;
+}
+
+.dashboard-reviews{
+    background-color: #fff;
+}
+.card{
+    border-radius: 0px !important;
+}
+.card-name{
+    color: #0078D7;
+}
+.profile-summary {
+    position: relative;
+    min-height: 300px;
+    padding-left: 15px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+.profile-summary-content {
+    bottom: 10px;
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+.company-logo{
+    border-radius: 4px;
+}
+.profile-tabs .nav-item{
+    border: none;
+    margin-right: 0px;
+    padding: 15px 30px;
+    letter-spacing: 0.2px;
+    background-color: #eee;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 0;
+    text-align: center;
+    color: #333b4d;
+}
+.user-profile-content input, 
+.user-profile-content select,
+.user-profile-content textarea,
+.tab-pane input,
+.tab-pane textarea
+{
+    background-color: #eee !important;
+}
+.btn{
+    border-radius: 0px;
+}
+.business-listing{
+    background-color: #f5f5f5;
+}
+.particular-business{
+    height: 200px;
+}
+.particular-details{
+    background-color: #fff;
+    overflow: hidden;
+}
+.particular-details a{
+    color:#0078D7 !important;
+}
+.particular-image{
+    object-fit: cover;
+}
+.mobile-search-form{
+    height: 300px;
+    display: none;
+}
+.visible-search{
+    display:  block !important;
+    background-color: #0078D7;
+    z-index: 1000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+.body-overlay{
+background-color: rgba(0, 0, 0, 0.5);
+}
+.closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+    color: #fff !important;
+}
+.tab-pane h4{
+    color: #0078D7 !important;
+}
+.index-mobile-search-submit{
+    display: none !important;
+}
+
+@media (max-width: 768px){
+    .sign-up-form, .sign-in-form{
+        width: 300px;
+    }
+    .mobile-search-section{
+        display: none;
+    }
+    .dashboard-navigation{
+        width:50%;
+        display: none;
+    }
+    .dashboard-main{
+        width: 100%;
+        margin-left: 0px;
+    }
+    .dashboard-reviews{
+        margin-left: 0px !important;
+    }
+    .company-name{
+        display: none;
+    }
+    .dashboardNav{
+        display: block
+    }
+    .dashboardContent{
+        margin-left: 50%;
+    }
+    .open-menu{
+        display: inline-block;
+    }
+    .particular-image{
+        width: 35%!important;
+    }
+    .particular-details{
+        width: 65% !important;
+    }
+    .particular-details p{
+        display: none;
+    }
+    .business-search-form{
+        margin-left: 0px !important;
+    }
+    .business-search-form .search-bar{
+        display: none;
+    }
+    .navbar-brand{
+        font-size: 15px !important;
+    }
+    .navbar-brand-image{
+        height: 25px;
+    }
+    .navbar-toggler{
+        background-color: #fff !important;
+    }
+    .sign-up-nav{
+        margin-top: 10px;
+    }
+    .index-mobile-search-submit{
+        display: inline-block !important;
+    }
+    .search-submit{
+        display: inline-block;
+        background-color: #fff;
+        color: #0078D7;
+        text-align: center;
+        width: 35px;
+        padding: 5px;
+        margin-left: -20px;
+        
+    
+    }
+    .profile-tabs .nav-item{
+        width: 100% !important;
+    }
+}
