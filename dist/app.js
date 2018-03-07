@@ -16,6 +16,10 @@ var _bodyParser = require('body-parser');
 
 var _bodyParser2 = _interopRequireDefault(_bodyParser);
 
+var _business = require('./routes/business');
+
+var _business2 = _interopRequireDefault(_business);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express2.default)();
@@ -24,6 +28,9 @@ var app = (0, _express2.default)();
 app.use((0, _morgan2.default)('dev'));
 app.use(_bodyParser2.default.json());
 app.use(_bodyParser2.default.urlencoded({ extended: false }));
+
+// configure the routes
+app.use('/v1', _business2.default);
 
 // Configure the port
 var port = process.env.PORT || 6000;
