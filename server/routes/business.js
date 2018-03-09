@@ -4,17 +4,17 @@ import Business from '../controllers/business';
 const router = express.Router();
 
 // create a business route
-router.post('/business', (req, res) => {
+router.post('/businesses', (req, res) => {
   new Business(req, res).createBusiness();
 });
 
 // fetch a business
-router.get('/business/:businessId', (req, res) => {
+router.get('/businesses/:businessId', (req, res) => {
   new Business(req, res).getBusiness();
 });
 
 // fetch all businesses
-router.get('/business', (req, res) => {
+router.get('/businesses', (req, res) => {
   new Business(req, res).getAllBusiness();
 });
 
@@ -24,17 +24,17 @@ router.put('/business/:businessId', (req, res) => {
 });
 
 // delete a business
-router.get('/business', (req, res) => {
+router.get('/businesses', (req, res) => {
   new Business(req, res).deleteBusiness();
 });
 
 // add a review to a business
-router.post('/business/:businessId/reviews', (req, res) => {
+router.post('/businesses/:businessId/reviews', (req, res) => {
   new Business(req, res).createReview();
 });
 
 // fetch all reviews for a business
-router.get('/business/:businessId/reviews', (req, res) => {
+router.get('/businesses/:businessId/reviews', (req, res) => {
   new Business(req, res).getReviews();
 });
 

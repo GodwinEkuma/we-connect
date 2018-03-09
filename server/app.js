@@ -2,6 +2,7 @@ import express from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import Business from './routes/business';
+import Users from './routes/users';
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // configure the routes
 app.use('/v1', Business);
+app.use('/v1', Users);
 
 // Configure the port
 const port = process.env.PORT || 6000;

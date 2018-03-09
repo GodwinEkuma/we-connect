@@ -77,7 +77,7 @@ const BusinessData = [
     businessCategory: 'Web Development & Graphics',
     businessWebsite: 'https//:instrap.com',
     businessDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    businessAddress: '15 Abayomi Street, Surulere, Lagos.',
+    businessAddress: '22a Prof. Kumi , Lekki, Lagos.',
     businessLogo: '../../template/images/user2.png',
     businessProfileImage: '../../template/images/featured_one.jpg',
     products: [
@@ -105,14 +105,14 @@ const BusinessData = [
     ]
   },
   {
-    id: 1,
+    id: 4,
     businessName: 'Instrap Solutions Limited',
     businessPhone: '0133512053',
     businessEmail: 'info@instrap.com',
     businessCategory: 'Web Development & Graphics',
     businessWebsite: 'https//:instrap.com',
     businessDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    businessAddress: '15 Abayomi Street, Surulere, Lagos.',
+    businessAddress: '22a Prof. Kumi , Lekki, Lagos.',
     businessLogo: '../../template/images/user2.png',
     businessProfileImage: '../../template/images/featured_one.jpg',
     products: [
