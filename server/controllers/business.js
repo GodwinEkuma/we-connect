@@ -89,4 +89,17 @@ export default class Business {
     });
     return this.res.status(200).json({ review: 'has been added' });
   }
+  /**
+  * checks if a business exists and adds a review to it
+  * @returns {init} returns error or status 200
+ */
+  getReviews() {
+    const findBusiness = BusinessData
+      .find(data => parseInt(this.req.params.businessId, 10) === data.id);
+    if (findBusiness) {
+      const reviews = ReviewData
+        .filter(review => parseInt(this.req.params.businessId, 10) === review.businessId);
+      return this.res.status(200).json({ reviews });
+    }
+  }
 }

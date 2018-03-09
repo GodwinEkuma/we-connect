@@ -33,4 +33,9 @@ router.post('/business/:businessId/reviews', (req, res) => {
   new Business(req, res).createReview();
 });
 
+// fetch all reviews for a business
+router.get('/business/:businessId/reviews', (req, res) => {
+  new Business(req, res).getReviews();
+});
+
 export default router;
