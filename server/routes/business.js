@@ -1,5 +1,6 @@
 import express from 'express';
 import Business from '../controllers/business';
+import query from '../middlewares/query';
 
 const router = express.Router();
 
@@ -14,7 +15,7 @@ router.get('/businesses/:businessId', (req, res) => {
 });
 
 // fetch all businesses
-router.get('/businesses', (req, res) => {
+router.get('/businesses', query, (req, res) => {
   new Business(req, res).getAllBusiness();
 });
 
