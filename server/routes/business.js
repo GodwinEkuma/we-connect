@@ -18,6 +18,11 @@ router.get('/business', (req, res) => {
   new Business(req, res).getAllBusiness();
 });
 
+// update a business
+router.put('/business/:businessId', (req, res) => {
+  new Business(req, res).updateBusiness();
+});
+
 // delete a business
 router.get('/business', (req, res) => {
   new Business(req, res).deleteBusiness();

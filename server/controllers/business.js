@@ -45,6 +45,19 @@ export default class Business {
     return this.res.json({ business: 'No business has been added to database' });
   }
   /**
+  * checks if a business exists and updates the details of the business
+  * @returns {init} returns error or status 200
+ */
+  updateBusiness() {
+    for (let i = 0; i <= BusinessData.length; i += 1) {
+      if (BusinessData[i].id === parseInt(this.req.params.businessId, 10)) {
+        BusinessData[i] = this.req.body;
+        return this.res.status(200).json({ business: 'has been updated' });
+      }
+    }
+    return this.res.status(400).json({ business: 'not found' });
+  }
+  /**
   * returns all businesses
   * @returns {init} returns error or status 200
  */
