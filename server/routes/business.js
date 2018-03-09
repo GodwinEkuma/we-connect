@@ -13,4 +13,9 @@ router.get('/business/:businessId', (req, res) => {
   new Business(req, res).getBusiness();
 });
 
+// fetch all businesses
+router.get('/business', (req, res) => {
+  new Business(req, res).getAllBusiness();
+});
+
 export default router;

@@ -36,4 +36,12 @@ export default class Business {
     }
     return this.res.status(404).json({ business: 'not found' });
   }
+  /**
+  * returns all businessesgod
+  * @returns {init} returns error or status 200
+ */
+  getAllBusiness() {
+    if (BusinessData.length >= 1) return this.res.status(200).json({ BusinessData });
+    return this.res.json({ business: 'No business has been added to database' });
+  }
 }
