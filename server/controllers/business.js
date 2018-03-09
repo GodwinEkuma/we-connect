@@ -44,4 +44,17 @@ export default class Business {
     if (BusinessData.length >= 1) return this.res.status(200).json({ BusinessData });
     return this.res.json({ business: 'No business has been added to database' });
   }
+  /**
+  * returns all businesses
+  * @returns {init} returns error or status 200
+ */
+  deleteBusiness() {
+    for (let i = 0; i <= BusinessData.length; i += 1) {
+      if (BusinessData[i].id === parseInt(this.req.params.businessId, 10)) {
+        BusinessData.splice(i, 1);
+        return this.res.status(204).json({ business: 'has been deleted' });
+      }
+    }
+    return this.res.status(404).json({ business: 'cannot deleted it does not exist' });
+  }
 }

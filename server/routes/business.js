@@ -18,4 +18,9 @@ router.get('/business', (req, res) => {
   new Business(req, res).getAllBusiness();
 });
 
+// delete a business
+router.get('/business', (req, res) => {
+  new Business(req, res).deleteBusiness();
+});
+
 export default router;
