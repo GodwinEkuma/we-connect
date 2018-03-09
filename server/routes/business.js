@@ -28,4 +28,9 @@ router.get('/business', (req, res) => {
   new Business(req, res).deleteBusiness();
 });
 
+// add a review to a business
+router.post('/business/:businessId/reviews', (req, res) => {
+  new Business(req, res).createReview();
+});
+
 export default router;

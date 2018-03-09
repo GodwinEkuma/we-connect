@@ -1,4 +1,5 @@
 import BusinessData from '../data/business';
+import ReviewData from '../data/review';
 
 /**
  * A class that mannipulates all the business
@@ -58,7 +59,7 @@ export default class Business {
     return this.res.status(400).json({ business: 'not found' });
   }
   /**
-  * returns all businesses
+  * deletes a business
   * @returns {init} returns error or status 200
  */
   deleteBusiness() {
@@ -69,5 +70,23 @@ export default class Business {
       }
     }
     return this.res.status(404).json({ business: 'cannot deleted it does not exist' });
+  }
+  /**
+  * adds a review to a business
+  * @returns {init} returns  status 201
+ */
+  createReview() {
+    const {
+      id, reviewTitle, reviewname, reviewDescription, reviewDate
+    } = this.req.body;
+    ReviewData.push({
+      id,
+      businessId: this.req.params.businessId,
+      reviewTitle,
+      reviewname,
+      reviewDescription,
+      reviewDate
+    });
+    return this.res.status(200).json({ review: 'has been added' });
   }
 }
