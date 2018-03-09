@@ -8,4 +8,5 @@ router.post('/business', (req, res) => {
   new Business(req, res).createBusiness();
 });
 
+
 export default router;
