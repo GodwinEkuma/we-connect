@@ -24,4 +24,16 @@ export default class Business {
     BusinessData.push(this.req.body);
     return this.res.status(200).json({ business: 'has been created' });
   }
+  /**
+  * checks if a business exists and fectchs the business
+  * @returns {init} returns error or status 200
+ */
+  getBusiness() {
+    const findBusiness = BusinessData
+      .find(data => parseInt(this.req.params.businessId, 10) === data.id);
+    if (findBusiness) {
+      return this.res.status(200).json(findBusiness);
+    }
+    return this.res.status(404).json({ business: 'not found' });
+  }
 }
