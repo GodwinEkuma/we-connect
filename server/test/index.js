@@ -41,3 +41,58 @@ describe('GET business/id', () => {
       });
   });
 });
+
+// Test for getting all business
+describe('GET  /businesses?location=<location>,category=<category>', () => {
+  it('it should get all businesses by location', (done) => {
+    chai.request(app)
+      .get('/v1/businesses?location=lekki')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.a('object');
+        done();
+      });
+  });
+  it('it should return not found (404) if no business in the location', (done) => {
+    chai.request(app)
+      .get('/v1/businesses?location=abuja')
+      .end((err, res) => {
+        expect(res).to.have.status(404);
+        done();
+      });
+  });
+  it('it should get all businesses by category', (done) => {
+    chai.request(app)
+      .get('/v1/businesses?category=Web Development and Graphics')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.a('object');
+        done();
+      });
+  });
+  it('it should return not found (404) if no business in the category', (done) => {
+    chai.request(app)
+      .get('/v1/businesses?category=qrwr')
+      .end((err, res) => {
+        expect(res).to.have.status(404);
+        done();
+      });
+  });
+  it('it should get all businesses by category and location', (done) => {
+    chai.request(app)
+      .get('/v1/businesses?category=Web Development and Graphics&location=surulere')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.a('object');
+        done();
+      });
+  });
+  it('it should return not found (404) if no business in the category and location', (done) => {
+    chai.request(app)
+      .get('/v1/businesses?category=qrwr&location=shaga')
+      .end((err, res) => {
+        expect(res).to.have.status(404);
+        done();
+      });
+  });
+});
