@@ -1,11 +1,12 @@
 import express from 'express';
 import Business from '../controllers/business';
 import query from '../middlewares/query';
+import { profileValidator, reviewValidator } from '../validator';
 
 const router = express.Router();
 
 // create a business route
-router.post('/businesses', (req, res) => {
+router.post('/businesses', profileValidator, (req, res) => {
   new Business(req, res).createBusiness();
 });
 
@@ -20,7 +21,7 @@ router.get('/businesses', query, (req, res) => {
 });
 
 // update a business
-router.put('/business/:businessId', (req, res) => {
+router.put('/business/:businessId', profileValidator, (req, res) => {
   new Business(req, res).updateBusiness();
 });
 
@@ -30,7 +31,7 @@ router.get('/businesses', (req, res) => {
 });
 
 // add a review to a business
-router.post('/businesses/:businessId/reviews', (req, res) => {
+router.post('/businesses/:businessId/reviews', reviewValidator, (req, res) => {
   new Business(req, res).createReview();
 });
 
