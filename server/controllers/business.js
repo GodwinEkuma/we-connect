@@ -94,12 +94,9 @@ export default class Business {
   * @returns {init} returns error or status 200
  */
   getReviews() {
-    const findBusiness = BusinessData
-      .find(data => parseInt(this.req.params.businessId, 10) === data.id);
-    if (findBusiness) {
-      const reviews = ReviewData
-        .filter(review => parseInt(this.req.params.businessId, 10) === review.businessId);
-      return this.res.status(200).json({ reviews });
-    }
+    const reviews = ReviewData
+      .filter(review => parseInt(this.req.params.businessId, 10) === review.businessId);
+    if (reviews.length > 0) return this.res.status(200).json({ reviews });
+    return this.res.status(404).json({ business: 'there are no reviews for this business' });
   }
 }

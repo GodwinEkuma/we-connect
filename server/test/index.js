@@ -43,7 +43,7 @@ describe('GET business/id', () => {
 });
 
 // Test for getting all business
-describe('GET  /businesses?location=<location>,category=<category>', () => {
+describe('GET  /businesses?location=location&category=category', () => {
   it('it should get all businesses by location', (done) => {
     chai.request(app)
       .get('/v1/businesses?location=lekki')
@@ -90,6 +90,27 @@ describe('GET  /businesses?location=<location>,category=<category>', () => {
   it('it should return not found (404) if no business in the category and location', (done) => {
     chai.request(app)
       .get('/v1/businesses?category=qrwr&location=shaga')
+      .end((err, res) => {
+        expect(res).to.have.status(404);
+        done();
+      });
+  });
+});
+
+// Test for get reviews
+describe('GET businesses/:id/reviews', () => {
+  it('it should return all reviews for a business', (done) => {
+    chai.request(app)
+      .get('/v1/businesses/1/reviews')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.a('object');
+        done();
+      });
+  });
+  it('it should return not found (404) if no reviews are found for a business', (done) => {
+    chai.request(app)
+      .get('/v1/businesses/5/reviews')
       .end((err, res) => {
         expect(res).to.have.status(404);
         done();
