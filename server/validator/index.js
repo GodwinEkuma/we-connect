@@ -22,8 +22,9 @@ const validator = {
     next();
   },
   profileSchema: Joi.object().keys({
+    id: Joi.number(),
     businessName: Joi.string().required(),
-    businessPhone: Joi.number().max(11),
+    businessPhone: Joi.string().max(11),
     businessEmail: Joi.string().email(),
     businessCategory: Joi.string().required(),
     businessWebsite: Joi.string(),
@@ -31,24 +32,7 @@ const validator = {
     businessAddress: Joi.string().required(),
     businessLogo: Joi.string(),
     businessProfileImage: Joi.string(),
-    products: [
-      {
-        product: Joi.string(),
-        Description: Joi.string()
-      },
-      {
-        product: Joi.string(),
-        Description: Joi.string()
-      },
-      {
-        product: Joi.string(),
-        Description: Joi.string()
-      },
-      {
-        product: Joi.string(),
-        Description: Joi.string()
-      }
-    ]
+    products: Joi.array().items(Joi.object())
   }),
   signUpSchema: Joi.object().keys({
     email: Joi.string().email().required(),
