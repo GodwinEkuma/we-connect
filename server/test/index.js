@@ -250,3 +250,37 @@ describe('POST businesses', () => {
       });
   });
 });
+
+// Test for post auth/signin
+describe('POST businesses', () => {
+  it('should not post a signup  without email and password', (done) => {
+    chai.request(app)
+      .post('/v1/auth/signin')
+      .send({
+        email: ''
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.property('isJoi');
+        expect(res.body).to.have.property('name');
+        expect(res.body).to.have.property('details');
+        expect(res.body).to.have.property('_object');
+        done();
+      });
+  });
+  it('should post a signup with email and password', (done) => {
+    chai.request(app)
+      .post('/v1/auth/signin')
+      .send({
+        email: 'info@gmail.com',
+        password: 'godwin1234'
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.property('login').a('string');
+        done();
+      });
+  });
+});
