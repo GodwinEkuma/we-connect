@@ -12,8 +12,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // configure the routes
-app.use('/v1', Business);
-app.use('/v1', Users);
+app.use('/api/v1', Business);
+app.use('/api/v1', Users);
 
 // Configure the port
 const port = process.env.PORT || 6000;
