@@ -120,7 +120,7 @@ describe('GET businesses/:id/reviews', () => {
 
 // Test for post business
 describe('POST businesses', () => {
-  it('should not post a business without name category and address', (done) => {
+  it('it should not post a business without name category and address', (done) => {
     chai.request(app)
       .post('/v1/businesses')
       .send({
@@ -165,7 +165,7 @@ describe('POST businesses', () => {
         done();
       });
   });
-  it('should post a business with name category and address', (done) => {
+  it('it should post a business with name category and address', (done) => {
     chai.request(app)
       .post('/v1/businesses')
       .send({
@@ -213,8 +213,8 @@ describe('POST businesses', () => {
 });
 
 // Test for post auth/signup
-describe('POST businesses', () => {
-  it('should not post a signup  without email, password, business name, category and name', (done) => {
+describe('POST auth/signup', () => {
+  it('it should not post a signup  without email, password, business name, category and name', (done) => {
     chai.request(app)
       .post('/v1/auth/signup')
       .send({
@@ -230,7 +230,7 @@ describe('POST businesses', () => {
         done();
       });
   });
-  it('should post a signup with email, password, business name, category and name', (done) => {
+  it('it should post a signup with email, password, business name, category and name', (done) => {
     chai.request(app)
       .post('/v1/auth/signup')
       .send({
@@ -252,8 +252,8 @@ describe('POST businesses', () => {
 });
 
 // Test for post auth/signin
-describe('POST businesses', () => {
-  it('should not post a signup  without email and password', (done) => {
+describe('POST auth/signup', () => {
+  it('it should not post a signup  without email and password', (done) => {
     chai.request(app)
       .post('/v1/auth/signin')
       .send({
@@ -269,7 +269,7 @@ describe('POST businesses', () => {
         done();
       });
   });
-  it('should post a signup with email and password', (done) => {
+  it('it should post a signup with email and password', (done) => {
     chai.request(app)
       .post('/v1/auth/signin')
       .send({
@@ -280,6 +280,44 @@ describe('POST businesses', () => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.a('object');
         expect(res.body).to.have.property('login').a('string');
+        done();
+      });
+  });
+});
+
+// Test for POST businesses/:businessId/reviews
+describe('POST businesses/:businessId/reviews', () => {
+  it('it should not post a review  without title name and description', (done) => {
+    chai.request(app)
+      .post('/v1/businesses/3/reviews')
+      .send({
+        name: ''
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.property('isJoi');
+        expect(res.body).to.have.property('name');
+        expect(res.body).to.have.property('details');
+        expect(res.body).to.have.property('_object');
+        done();
+      });
+  });
+  it('it should post a review with name, title, and description', (done) => {
+    chai.request(app)
+      .post('/v1/businesses/3/reviews')
+      .send({
+        id: 45,
+        businessId: 1,
+        reviewTitle: 'Excellent web design',
+        reviewname: 'Godwin Ekuma',
+        reviewDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
+        reviewDate: '02, March, 2018'
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.property('review').a('string');
         done();
       });
   });

@@ -48,9 +48,12 @@ const validator = {
     password: Joi.string().required()
   }),
   reviewSchema: Joi.object().keys({
+    id: Joi.number(),
+    businessId: Joi.number(),
     reviewTitle: Joi.string().required(),
     reviewDescription: Joi.string().required(),
-    reviewname: Joi.string().required()
+    reviewname: Joi.string().required(),
+    reviewDate: Joi.string()
   })
 };
 
