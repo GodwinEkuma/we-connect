@@ -417,3 +417,25 @@ describe('PUT businesses/id', () => {
   });
 });
 
+// Test for delete business
+describe('DELETE businesses/:businessId', () => {
+  it('it should delete a business with :businessID', (done) => {
+    chai.request(app)
+      .delete('/v1/businesses/4')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.property('business').a('string');
+        done();
+      });
+  });
+  it('it should not delete a buiness that does not exist', (done) => {
+    chai.request(app)
+      .delete('/v1/businesses/1000')
+      .end((err, res) => {
+        expect(res).to.have.status(404);
+        expect(res.body).to.have.property('business').a('string');
+        done();
+      });
+  });
+});

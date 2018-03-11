@@ -63,13 +63,13 @@ export default class Business {
   * @returns {init} returns error or status 200
  */
   deleteBusiness() {
-    for (let i = 0; i <= BusinessData.length; i += 1) {
-      if (BusinessData[i].id === parseInt(this.req.params.businessId, 10)) {
-        BusinessData.splice(i, 1);
-        return this.res.status(204).json({ business: 'has been deleted' });
-      }
+    const findBusiness = BusinessData
+      .findIndex(data => parseInt(this.req.params.businessId, 10) === data.id);
+    if (findBusiness !== -1) {
+      BusinessData.splice(findBusiness, 1);
+      return this.res.status(200).json({ business: 'has been deleted' });
     }
-    return this.res.status(404).json({ business: 'cannot deleted it does not exist' });
+    return this.res.status(404).json({ business: 'cannot delete a business that  does not exist' });
   }
   /**
   * adds a review to a business

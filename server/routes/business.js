@@ -26,7 +26,7 @@ router.put('/businesses/:businessId', profileValidator, (req, res) => {
 });
 
 // delete a business
-router.get('/businesses', (req, res) => {
+router.delete('/businesses/:businessId', (req, res) => {
   new Business(req, res).deleteBusiness();
 });
 
