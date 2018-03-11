@@ -211,3 +211,42 @@ describe('POST businesses', () => {
       });
   });
 });
+
+// Test for post auth/signup
+describe('POST businesses', () => {
+  it('should not post a signup  without email, password, business name, category and name', (done) => {
+    chai.request(app)
+      .post('/v1/auth/signup')
+      .send({
+        id: 8,
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.property('isJoi');
+        expect(res.body).to.have.property('name');
+        expect(res.body).to.have.property('details');
+        expect(res.body).to.have.property('_object');
+        done();
+      });
+  });
+  it('should post a signup with email, password, business name, category and name', (done) => {
+    chai.request(app)
+      .post('/v1/auth/signup')
+      .send({
+        id: 5,
+        email: 'blabla@gmail.com',
+        password: 'godwin1234',
+        businessName: 'Instrap Solutions Limited',
+        businessCategory: 'Website Design and Development',
+        firstName: 'Godwin',
+        lastname: 'Ekuma'
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.property('user').a('string');
+        done();
+      });
+  });
+});

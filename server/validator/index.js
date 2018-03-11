@@ -35,6 +35,7 @@ const validator = {
     products: Joi.array().items(Joi.object())
   }),
   signUpSchema: Joi.object().keys({
+    id: Joi.number(),
     email: Joi.string().email().required(),
     password: Joi.string().required(),
     businessName: Joi.string().required(),
