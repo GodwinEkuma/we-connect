@@ -322,3 +322,98 @@ describe('POST businesses/:businessId/reviews', () => {
       });
   });
 });
+
+// Test for put  businesses/id
+describe('PUT businesses/id', () => {
+  it('it should not update a business without name, category and address', (done) => {
+    chai.request(app)
+      .put('/v1/businesses/1')
+      .send({
+        id: 1,
+        businessPhone: '0133512053',
+        businessEmail: 'info@instrap.com',
+        businessWebsite: 'https//:instrap.com',
+        businessDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        businessLogo: '../../template/images/user2.png',
+        businessProfileImage: '../../template/images/featured_one.jpg',
+        products: [
+          {
+            id: 1,
+            product: 'UI/UX',
+            Description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+          },
+          {
+            id: 2,
+            product: 'UI/UX',
+            Description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua'
+          },
+          {
+            id: 3,
+            product: 'UI/UX',
+            Description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua'
+          },
+          {
+            id: 4,
+            product: 'UI/UX',
+            Description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua'
+          }
+
+        ]
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.property('isJoi');
+        expect(res.body).to.have.property('name');
+        expect(res.body).to.have.property('details');
+        expect(res.body).to.have.property('_object');
+        done();
+      });
+  });
+  it('it should update a business with name category and address', (done) => {
+    chai.request(app)
+      .put('/v1/businesses/1')
+      .send({
+        id: 5,
+        businessName: 'Instrap Solutions Limited',
+        businessPhone: '0133512053',
+        businessEmail: 'info@instrap.com',
+        businessCategory: 'Web Development and Graphics',
+        businessWebsite: 'https//:instrap.com',
+        businessDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        businessAddress: '15 Abayomi Street, Surulere, Lagos.',
+        businessLogo: '../../template/images/user2.png',
+        businessProfileImage: '../../template/images/featured_one.jpg',
+        products: [
+          {
+            id: 1,
+            product: 'UI/UX',
+            Description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+          },
+          {
+            id: 2,
+            product: 'UI/UX',
+            Description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua'
+          },
+          {
+            id: 3,
+            product: 'UI/UX',
+            Description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua'
+          },
+          {
+            id: 4,
+            product: 'UI/UX',
+            Description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua'
+          }
+
+        ]
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.property('business').a('string');
+        done();
+      });
+  });
+});
+

@@ -21,7 +21,7 @@ router.get('/businesses', query, (req, res) => {
 });
 
 // update a business
-router.put('/business/:businessId', profileValidator, (req, res) => {
+router.put('/businesses/:businessId', profileValidator, (req, res) => {
   new Business(req, res).updateBusiness();
 });
 
