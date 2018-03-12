@@ -1,7 +1,15 @@
 language: node_js
 node_js:
 - "stable"
-before_script:
-- npm install
+install:
+  - npm install
 script:
-- npm test
+  - npm test
+  - npm run coverage
+env:
+  - NODE_ENV=test
+cache:
+  directories:
+    - "node_modules"
+after_success :
+    - npm run coverage
