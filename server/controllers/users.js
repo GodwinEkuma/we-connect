@@ -13,12 +13,18 @@ export default class User {
     this.res = res;
   }
   /**
+  * checks if a user exists
+  * @returns {init} returns error or status 200
+ */
+  findUser() {
+    return Users.find(user => this.req.body.email === user.email);
+  }
+  /**
   * checks if a user exists and creates a new user if such user does not exist
   * @returns {init} returns error or status 200
  */
   signUp() {
-    const findUser = Users.find(user => this.req.body.email === user.email);
-    if (findUser) {
+    if (this.findUser()) {
       return this.res.status(400).json({ user: 'already exist' });
     }
     Users.push(this.req.body);
@@ -29,9 +35,9 @@ export default class User {
   * @returns {init} returns error or status 200
  */
   signIn() {
-    const findUser = Users.find(user => this.req.body.email === user.email
-        && this.req.body.password === user.password);
-    if (findUser) {
+    const verifyUser = Users.find(user => this.findUser() &&
+      this.req.body.password === user.password);
+    if (verifyUser) {
       return this.res.status(200).json({ login: 'sucessful' });
     }
     return this.res.status(404).json({ login: 'details incorrect or sign to get started' });
