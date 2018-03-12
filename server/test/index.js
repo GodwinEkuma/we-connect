@@ -10,7 +10,7 @@ chai.use(chaiHttp);
 describe('GET business', () => {
   it('it should get all businesses', (done) => {
     chai.request(app)
-      .get('/v1/businesses')
+      .get('/api/v1/businesses')
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.a('object');
@@ -23,7 +23,7 @@ describe('GET business', () => {
 describe('GET business/id', () => {
   it('it should return business by id', (done) => {
     chai.request(app)
-      .get('/v1/businesses/4')
+      .get('/api/v1/businesses/4')
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.have.property('businessName');
@@ -34,7 +34,7 @@ describe('GET business/id', () => {
   });
   it('it should return 404 if business is not found', (done) => {
     chai.request(app)
-      .get('/v1/businesses/8')
+      .get('/api/v1/businesses/8')
       .end((err, res) => {
         expect(res).to.have.status(404);
         done();
@@ -46,7 +46,7 @@ describe('GET business/id', () => {
 describe('GET  /businesses?location=location&category=category', () => {
   it('it should get all businesses by location', (done) => {
     chai.request(app)
-      .get('/v1/businesses?location=lekki')
+      .get('/api/v1/businesses?location=lekki')
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.a('object');
@@ -55,7 +55,7 @@ describe('GET  /businesses?location=location&category=category', () => {
   });
   it('it should return not found (404) if no business in the location', (done) => {
     chai.request(app)
-      .get('/v1/businesses?location=abuja')
+      .get('/api/v1/businesses?location=abuja')
       .end((err, res) => {
         expect(res).to.have.status(404);
         done();
@@ -63,7 +63,7 @@ describe('GET  /businesses?location=location&category=category', () => {
   });
   it('it should get all businesses by category', (done) => {
     chai.request(app)
-      .get('/v1/businesses?category=Web Development and Graphics')
+      .get('/api/v1/businesses?category=Web Development and Graphics')
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.a('object');
@@ -72,7 +72,7 @@ describe('GET  /businesses?location=location&category=category', () => {
   });
   it('it should return not found (404) if no business in the category', (done) => {
     chai.request(app)
-      .get('/v1/businesses?category=qrwr')
+      .get('/api/v1/businesses?category=qrwr')
       .end((err, res) => {
         expect(res).to.have.status(404);
         done();
@@ -80,7 +80,7 @@ describe('GET  /businesses?location=location&category=category', () => {
   });
   it('it should get all businesses by category and location', (done) => {
     chai.request(app)
-      .get('/v1/businesses?category=Web Development and Graphics&location=surulere')
+      .get('/api/v1/businesses?category=Web Development and Graphics&location=surulere')
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.a('object');
@@ -89,7 +89,7 @@ describe('GET  /businesses?location=location&category=category', () => {
   });
   it('it should return not found (404) if no business in the category and location', (done) => {
     chai.request(app)
-      .get('/v1/businesses?category=qrwr&location=shaga')
+      .get('/api/v1/businesses?category=qrwr&location=shaga')
       .end((err, res) => {
         expect(res).to.have.status(404);
         done();
@@ -101,7 +101,7 @@ describe('GET  /businesses?location=location&category=category', () => {
 describe('GET businesses/:id/reviews', () => {
   it('it should return all reviews for a business', (done) => {
     chai.request(app)
-      .get('/v1/businesses/1/reviews')
+      .get('/api/v1/businesses/1/reviews')
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.a('object');
@@ -110,7 +110,7 @@ describe('GET businesses/:id/reviews', () => {
   });
   it('it should return not found (404) if no reviews are found for a business', (done) => {
     chai.request(app)
-      .get('/v1/businesses/5/reviews')
+      .get('/api/v1/businesses/5/reviews')
       .end((err, res) => {
         expect(res).to.have.status(404);
         done();
@@ -122,7 +122,7 @@ describe('GET businesses/:id/reviews', () => {
 describe('POST businesses', () => {
   it('it should not post a business without name category and address', (done) => {
     chai.request(app)
-      .post('/v1/businesses')
+      .post('/api/v1/businesses')
       .send({
         id: 1,
         businessPhone: '0133512053',
@@ -167,7 +167,7 @@ describe('POST businesses', () => {
   });
   it('it should post a business with name category and address', (done) => {
     chai.request(app)
-      .post('/v1/businesses')
+      .post('/api/v1/businesses')
       .send({
         id: 5,
         businessName: 'Instrap Solutions Limited',
@@ -216,7 +216,7 @@ describe('POST businesses', () => {
 describe('POST auth/signup', () => {
   it('it should not post a signup  without email, password, business name, category and name', (done) => {
     chai.request(app)
-      .post('/v1/auth/signup')
+      .post('/api/v1/auth/signup')
       .send({
         id: 8,
       })
@@ -232,7 +232,7 @@ describe('POST auth/signup', () => {
   });
   it('it should post a signup with email, password, business name, category and name', (done) => {
     chai.request(app)
-      .post('/v1/auth/signup')
+      .post('/api/v1/auth/signup')
       .send({
         id: 5,
         email: 'blabla@gmail.com',
@@ -255,7 +255,7 @@ describe('POST auth/signup', () => {
 describe('POST auth/signup', () => {
   it('it should not post a signup  without email and password', (done) => {
     chai.request(app)
-      .post('/v1/auth/signin')
+      .post('/api/v1/auth/signin')
       .send({
         email: ''
       })
@@ -271,7 +271,7 @@ describe('POST auth/signup', () => {
   });
   it('it should post a signup with email and password', (done) => {
     chai.request(app)
-      .post('/v1/auth/signin')
+      .post('/api/v1/auth/signin')
       .send({
         email: 'info@gmail.com',
         password: 'godwin1234'
@@ -289,7 +289,7 @@ describe('POST auth/signup', () => {
 describe('POST businesses/:businessId/reviews', () => {
   it('it should not post a review  without title name and description', (done) => {
     chai.request(app)
-      .post('/v1/businesses/3/reviews')
+      .post('/api/v1/businesses/3/reviews')
       .send({
         name: ''
       })
@@ -305,7 +305,7 @@ describe('POST businesses/:businessId/reviews', () => {
   });
   it('it should post a review with name, title, and description', (done) => {
     chai.request(app)
-      .post('/v1/businesses/3/reviews')
+      .post('/api/v1/businesses/3/reviews')
       .send({
         id: 45,
         businessId: 1,
@@ -327,7 +327,7 @@ describe('POST businesses/:businessId/reviews', () => {
 describe('PUT businesses/id', () => {
   it('it should not update a business without name, category and address', (done) => {
     chai.request(app)
-      .put('/v1/businesses/1')
+      .put('/api/v1/businesses/1')
       .send({
         id: 1,
         businessPhone: '0133512053',
@@ -372,7 +372,7 @@ describe('PUT businesses/id', () => {
   });
   it('it should update a business with name category and address', (done) => {
     chai.request(app)
-      .put('/v1/businesses/1')
+      .put('/api/v1/businesses/1')
       .send({
         id: 5,
         businessName: 'Instrap Solutions Limited',
@@ -421,7 +421,7 @@ describe('PUT businesses/id', () => {
 describe('DELETE businesses/:businessId', () => {
   it('it should delete a business with :businessID', (done) => {
     chai.request(app)
-      .delete('/v1/businesses/4')
+      .delete('/api/v1/businesses/4')
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.a('object');
@@ -431,7 +431,7 @@ describe('DELETE businesses/:businessId', () => {
   });
   it('it should not delete a buiness that does not exist', (done) => {
     chai.request(app)
-      .delete('/v1/businesses/1000')
+      .delete('/api/v1/businesses/1000')
       .end((err, res) => {
         expect(res).to.have.status(404);
         expect(res.body).to.have.property('business').a('string');
