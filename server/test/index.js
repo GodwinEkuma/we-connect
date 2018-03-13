@@ -439,3 +439,27 @@ describe('DELETE businesses/:businessId', () => {
       });
   });
 });
+
+// Test for default route
+describe('GET /', () => {
+  it('Should return 200 for the default route', (done) => {
+    chai.request(app)
+      .get('/')
+      .end((err, res) => {
+        expect(res.status).to.equal(200);
+        done();
+      });
+  });
+});
+
+// Test for getting undefind rouotes
+describe('GET undefined route', () => {
+  it('Should return 404 for the default route', (done) => {
+    chai.request(app)
+      .get('/another/undefined/route')
+      .end((err, res) => {
+        expect(res.status).to.equal(404);
+        done();
+      });
+  });
+});
