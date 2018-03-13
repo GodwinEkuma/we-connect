@@ -12,6 +12,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // configure the routes
+app.get('/', (req, res) => {
+  res.status(200).json({ message: 'Welcome to we-connect where businesses and humans meet' });
+});
+app.get('*', (req, res) => {
+  res.status(200).json({ message: 'Welcome to we-connect where businesses and humans meet' });
+});
 app.use('/api/v1', Business);
 app.use('/api/v1', Users);
 
