@@ -3,14 +3,15 @@ import logger from 'morgan';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
-import swaggerDocs from './docs/swagger.json';
+import YAML from 'yamljs';
 import Business from './routes/business';
 import Users from './routes/users';
 
 const app = express();
+const swaggerDocument = YAML.load('./server/docs/swagger.yaml');
 
 // enable cors
-app.use(cors());
+app.use(cors({ credentials: true, origin: true }));
 
 // Configure middlewares
 app.use(logger('dev'));
@@ -18,7 +19,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // configure the routes
-app.use('/api/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.get('/', (req, res) => {
   res.status(200).json({ message: 'Welcome to we-connect where businesses and humans meet' });
 });
