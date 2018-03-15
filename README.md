@@ -12,3 +12,19 @@ Technologies
 - Nodejs
 - ExpressJs
 - ReactJs
+
+### Template
+https://godwinekuma.github.io/we-connect/
+
+### API Documentation
+https://geo-we-connect.herokuapp.com/api-docs/
+
+### Installation
+- Create a parent folder on your system
+- Clone repo. `$ git clone https://github.com/GodwinEkuma/we-connect.git`
+- Instll all dependencies
+`$ npm install`
+- Start the server
+`$ npm start`
+- Run Tests
+`$ npm test`
