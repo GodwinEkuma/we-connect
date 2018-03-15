@@ -29,10 +29,7 @@ const validator = {
     businessCategory: Joi.string().required(),
     businessWebsite: Joi.string(),
     businessDescription: Joi.string(),
-    businessAddress: Joi.string().required(),
-    businessLogo: Joi.string(),
-    businessProfileImage: Joi.string(),
-    products: Joi.array().items(Joi.object())
+    businessAddress: Joi.string().required()
   }),
   signUpSchema: Joi.object().keys({
     id: Joi.number(),
