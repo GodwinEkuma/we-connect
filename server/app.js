@@ -1,6 +1,7 @@
 import express from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
@@ -8,6 +9,8 @@ import Business from './routes/business';
 import Users from './routes/users';
 
 const app = express();
+dotenv.config(); // add env file
+
 const swaggerDocument = YAML.load('./server/docs/swagger.yaml');
 
 // enable cors
