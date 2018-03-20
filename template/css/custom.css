@@ -16,7 +16,7 @@ h1{
 }
 h2{
     font-size: 30px;
-    color: hsla(0,0%,100%,.8);
+    color: 	rgba(255, 255, 255, 0.8);
     letter-spacing: 0;
     line-height: 46px;
     margin-bottom: 54px;
@@ -148,7 +148,7 @@ a:hover{
 }
 .dashboard-navigation .nav-link{
     padding: 25px 15px;
-    color: hsla(0,0%,100%,.8);
+    color: 	rgba(255, 255, 255, 0.8);
 }
 .dashboard-navigation .nav-link:hover{
     color: #fff;
@@ -169,9 +169,7 @@ a:hover{
 }
 .navbar-profile-image{
 	height: 30px;
-	max-height:30px;
 	width: 30px;
-	max-width: 30px;
 }
 .dashboard-main-content{
     background-color: #f5f5f5;
@@ -186,6 +184,22 @@ a:hover{
 }
 .card-name{
     color: #0078D7;
+    font-size: 0.8rem;
+}
+.card-title{
+    font-size: 0.9rem;
+}
+.card-text{
+    font-size: 1rem;
+}
+.business-contact-details{
+    background-color:  #0078D7;
+}
+.business-contact-details p{
+    color: #FFF !important;
+}
+.business-contact-heading{
+    color: #fff !important;
 }
 .profile-summary {
     position: relative;
@@ -260,7 +274,7 @@ a:hover{
 .body-overlay{
 background-color: rgba(0, 0, 0, 0.5);
 }
-.closebtn {
+.close-button {
     position: absolute;
     top: 0;
     right: 25px;
@@ -268,11 +282,15 @@ background-color: rgba(0, 0, 0, 0.5);
     margin-left: 50px;
     color: #fff !important;
 }
-.tab-pane h4{
+.business-details-heading{
     color: #0078D7 !important;
 }
 .index-mobile-search-submit{
     display: none !important;
+}
+.nav-tabs .active{
+    color: #fff !important;
+    background-color: #0078D7 !important;
 }
 
 @media (max-width: 768px){
@@ -348,5 +366,8 @@ background-color: rgba(0, 0, 0, 0.5);
     }
     .profile-tabs .nav-item{
         width: 100% !important;
+    }
+    .business-contact-details{
+        padding: 5px;
     }
 }
