@@ -3,14 +3,13 @@ module.exports = {
     queryInterface.createTable('Businesses', {
       id: {
         allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4
+        type: Sequelize.INTEGER
       },
       businessName: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true,
       },
       businessPhone: {
         type: Sequelize.STRING,
@@ -18,23 +17,32 @@ module.exports = {
       },
       businessEmail: {
         type: Sequelize.STRING,
-        alloWNull: false,
+        allowNull: false,
       },
       businessCategory: {
         type: Sequelize.STRING,
-        alloWNull: false,
+        allowNull: false,
       },
       businessWebsite: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: true,
       },
       businessDescription: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: true,
       },
       businessAddress: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+      },
+      userId: {
+        allowNull: false,
+        onDelete: 'CASCADE',
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id',
+        }
       },
       createdAt: {
         allowNull: false,
@@ -43,16 +51,7 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      },
-      userId: {
-        type: Sequelize.INTEGER,
-        onDelete: 'CASCADE',
-        allowNull: false,
-        references: {
-          model: 'Users',
-          key: 'id',
-        },
-      },
+      }
     });
   },
   down: (queryInterface) => {

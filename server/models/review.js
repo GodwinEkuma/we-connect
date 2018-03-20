@@ -1,25 +1,20 @@
 module.exports = (sequelize, DataTypes) => {
   const Review = sequelize.define('Review', {
-    id: {
-      allowNull: false,
-      primaryKey: true,
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4
-    },
     reviewTitle: {
       type: DataTypes.STRING,
       allowNull: false
     },
     reviewName: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     reviewDescription: {
       type: DataTypes.STRING,
-      alloWNull: false,
+      allowNull: true
     }
   });
   Review.associate = (models) => {
+    // associations can be defined here
     Review.belongsTo(models.User, {
       foreignKey: 'userId',
       onDelete: 'CASCADE'

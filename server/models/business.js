@@ -1,27 +1,21 @@
 module.exports = (sequelize, DataTypes) => {
   const Business = sequelize.define('Business', {
-    id: {
-      allowNull: false,
-      primaryKey: true,
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4
-    },
     businessName: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      unique: true
     },
     businessPhone: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: true
     },
     businessEmail: {
       type: DataTypes.STRING,
-      alloWNull: false,
+      allowNull: false,
     },
     businessCategory: {
       type: DataTypes.STRING,
-      alloWNull: false,
+      allowNull: false,
     },
     businessWebsite: {
       type: DataTypes.STRING,
@@ -35,17 +29,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     }
-
   });
   Business.associate = (models) => {
-    Business.belongsTo(models.User, {
-      foreignKey: 'userId',
-      onDelete: 'CASCADE'
-    });
+    // associations can be defined here
     Business.hasMany(models.Review, {
       foreignKey: 'businessId'
     });
+    Business.belongsTo(models.User, {
+      foreignKey: 'UserId',
+      onDelete: 'CASCADE'
+    });
   };
-
   return Business;
 };
