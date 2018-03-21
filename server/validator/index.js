@@ -36,7 +36,7 @@ const validator = {
     email: Joi.string().email().required(),
     password: Joi.string().required(),
     firstName: Joi.string().required(),
-    lastname: Joi.string().required()
+    lastName: Joi.string().required()
   }),
   signInSchema: Joi.object().keys({
     email: Joi.string().email().required(),
