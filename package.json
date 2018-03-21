@@ -4,7 +4,8 @@
   "description": "An application that connects businesses and individuals",
   "main": "app.js",
   "scripts": {
-    "test": "nyc --reporter=html --reporter=text mocha ./server/test/ --exit --timeout 10000 --compilers js:babel-register ",
+    "test-migrate": "sequelize db:migrate:undo:all --env test && sequelize db:migrate --env test",
+    "test": "sequelize db:migrate:undo:all --env test && sequelize db:migrate --env test && nyc --reporter=html --reporter=text mocha ./server/test/ --exit --timeout 10000 --compilers js:babel-register ",
     "clean": "rimraf dist",
     "build": "npm run clean && mkdir dist && babel server -s -d dist",
     "start": "npm run build && babel-watch dist/app.js",
@@ -22,6 +23,7 @@
   },
   "homepage": "https://github.com/GodwinEkuma/we-connect#readme",
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
@@ -29,6 +31,7 @@
     "dotenv": "^5.0.1",
     "express": "^4.16.2",
     "joi": "^13.1.2",
+    "jsonwebtoken": "^8.2.0",
     "mocha": "^5.0.4",
     "morgan": "^1.9.0",
     "pg": "^7.4.1",
