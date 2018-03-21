@@ -181,30 +181,28 @@ describe('POST auth/signup', () => {
         done();
       });
   });
-  it('it should post a signup with email, password, business name, category and name', (done) => {
+  it('it should post a signup with email, password, business, firstname and lastname', (done) => {
     chai.request(app)
       .post('/api/v1/auth/signup')
       .send({
         id: 5,
         email: 'blabla@gmail.com',
         password: 'godwin1234',
-        businessName: 'Instrap Solutions Limited',
-        businessCategory: 'Website Design and Development',
         firstName: 'Godwin',
         lastname: 'Ekuma'
       })
       .end((err, res) => {
-        expect(res).to.have.status(200);
+        expect(res).to.have.status(201);
         expect(res.body).to.be.a('object');
-        expect(res.body).to.have.property('user').a('string');
+        expect(res.body).to.have.property('message').a('string');
         done();
       });
   });
 });
 
 // Test for post auth/signin
-describe('POST auth/signup', () => {
-  it('it should not post a signup  without email and password', (done) => {
+describe('POST auth/signin', () => {
+  it('it should not  signin  without email and password', (done) => {
     chai.request(app)
       .post('/api/v1/auth/signin')
       .send({
@@ -220,7 +218,7 @@ describe('POST auth/signup', () => {
         done();
       });
   });
-  it('it should post a signup with email and password', (done) => {
+  it('it should sigin a user with email and password', (done) => {
     chai.request(app)
       .post('/api/v1/auth/signin')
       .send({
@@ -230,7 +228,7 @@ describe('POST auth/signup', () => {
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.a('object');
-        expect(res.body).to.have.property('login').a('string');
+        expect(res.body).to.have.property('message').a('string');
         done();
       });
   });

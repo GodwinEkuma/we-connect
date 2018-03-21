@@ -1,45 +1,46 @@
-import Users from '../data/users';
+import users from '../data/users';
 
 /**
  * A class that mannipulates sign in and  sign up
  */
 export default class User {
-/**
- * @param {int} req the request object
- * @param {int} res the response object
- */
-  constructor(req, res) {
-    this.req = req;
-    this.res = res;
+  /**
+   * Signs up a user
+   * @param {*} req
+   * @param {*} res
+   * @returns {json} response
+   */
+  static signUp(req, res) {
+    const { email } = req.body;
+    users.forEach((user) => {
+      if (user.email === email) {
+        return res.status(403).json({
+          message: 'A user with that email already exists',
+        });
+      }
+    });
+    users.push(req.body);
+    return res.status(201).json({
+      message: 'User Created Successfully'
+    });
   }
   /**
-  * checks if a user exists
-  * @returns {init} returns error or status 200
- */
-  findUser() {
-    return Users.find(user => this.req.body.email === user.email);
-  }
-  /**
-  * checks if a user exists and creates a new user if such user does not exist
-  * @returns {init} returns error or status 200
- */
-  signUp() {
-    if (this.findUser()) {
-      return this.res.status(400).json({ user: 'already exist' });
-    }
-    Users.push(this.req.body);
-    return this.res.status(200).json({ user: 'has been added' });
-  }
-  /**
-  * checks if a user exists and log's the user in
-  * @returns {init} returns error or status 200
- */
-  signIn() {
-    const verifyUser = Users.find(user => this.findUser() &&
-      this.req.body.password === user.password);
-    if (verifyUser) {
-      return this.res.status(200).json({ login: 'sucessful' });
-    }
-    return this.res.status(404).json({ login: 'details incorrect or sign to get started' });
+   * Signs in a user
+   * @param {*} req
+   * @param {*} res
+   * @returns {json} response
+   */
+  static signIn(req, res) {
+    const { email, password } = req.body;
+    users.forEach((user) => {
+      if (email === user.email && password === user.password) {
+        return res.status(200).json({
+          message: 'Logged in successfully'
+        });
+      }
+    });
+    return res.status(400).json({
+      message: 'Unable to Log in'
+    });
   }
 }

@@ -1,102 +1,118 @@
-import BusinessData from '../data/business';
-import ReviewData from '../data/review';
+import business from '../data/business';
+import review from '../data/review';
+import findBusiness from '../helpers/findBusiness';
 
 /**
- * A class that mannipulates all the business
+ * A class that mannipulates all the business routes
  */
 export default class Business {
-/**
- * @param {int} req the request object
- * @param {int} res the response object
- */
-  constructor(req, res) {
-    this.req = req;
-    this.res = res;
-  }
   /**
-  * checks if a business exists and creates a new business if such business does not exist
-  * @returns {init} returns error or status 200
- */
-  createBusiness() {
-    const findBusiness = BusinessData.find(data => this.req.body.id === data.id);
-    if (findBusiness) {
-      return this.res.status(400).json({ business: 'already exist' });
+   * Add a new business
+   * @param {*} req
+   * @param {*} res
+   * @returns {json} response
+   */
+  static createBusiness(req, res) {
+    const { id } = req.body;
+    if (findBusiness(id)) {
+      return res.status(403).json({ business: 'already exist' });
     }
-    BusinessData.push(this.req.body);
-    return this.res.status(200).json({ business: 'has been created' });
+    business.push(req.body);
+    return res.status(200).json({ business: 'has been created' });
   }
   /**
-  * checks if a business exists and fectchs the business
-  * @returns {init} returns error or status 200
- */
-  getBusiness() {
-    const findBusiness = BusinessData
-      .find(data => parseInt(this.req.params.businessId, 10) === data.id);
-    if (findBusiness) {
-      return this.res.status(200).json(findBusiness);
+   * Retrieve a  business
+   * @param {*} req
+   * @param {*} res
+   * @returns {json} response
+   */
+  static getBusiness(req, res) {
+    const { businessId } = req.params;
+    const foundBusiness = findBusiness(parseInt(businessId, 10));
+    if (foundBusiness) {
+      return res.status(200).json(foundBusiness);
     }
-    return this.res.status(404).json({ business: 'not found' });
+    return res.status(404).json({ business: 'not found' });
   }
   /**
-  * returns all businessesgod
-  * @returns {init} returns error or status 200
- */
-  getAllBusiness() {
-    if (BusinessData.length >= 1) return this.res.status(200).json({ BusinessData });
-    return this.res.json({ business: 'No business has been added to database' });
+   * Retrive all businesses
+   * @param {*} req
+   * @param {*} res
+   * @returns {json} response of all businesses
+   */
+  static getAllBusiness(req, res) {
+    if (business.length >= 1) return res.status(200).json({ business });
+    return res.status(404).json({ business: 'No business has been added to database' });
   }
   /**
-  * checks if a business exists and updates the details of the business
-  * @returns {init} returns error or status 200
- */
-  updateBusiness() {
-    for (let i = 0; i <= BusinessData.length; i += 1) {
-      if (BusinessData[i].id === parseInt(this.req.params.businessId, 10)) {
-        BusinessData[i] = this.req.body;
-        return this.res.status(200).json({ business: 'has been updated' });
+   * update the details of a  business
+   * @param {*} req
+   * @param {*} res
+   * @returns {json} response
+   */
+  static updateBusiness(req, res) {
+    const { businessId } = req.params;
+    const {
+      businessName, businessEmail, businessPhone, businessDescription,
+      businessCategory, businessWebsite, businessAddress
+    } = req.body;
+    business.forEach((profile) => {
+      if (profile.id === parseInt(businessId, 10)) {
+        profile.businessName = businessName || profile.businessName;
+        profile.businessEmail = businessEmail || profile.businessEmail;
+        profile.businessPhone = businessPhone || profile.businessPhone;
+        profile.businessCategory = businessCategory || profile.businessCategory;
+        profile.businessDescription = businessDescription || profile.businessDescription;
+        profile.businessWebsite = businessWebsite || profile.businessWebsite;
+        profile.businessAddress = businessAddress || profile.businessAddress;
+        return res.status(200).json({ business: 'has been updated' });
       }
-    }
-    return this.res.status(400).json({ business: 'not found' });
+    });
+    return res.status(404).json({ business: 'not found' });
   }
   /**
-  * deletes a business
-  * @returns {init} returns error or status 200
- */
-  deleteBusiness() {
-    const findBusiness = BusinessData
-      .findIndex(data => parseInt(this.req.params.businessId, 10) === data.id);
-    if (findBusiness !== -1) {
-      BusinessData.splice(findBusiness, 1);
-      return this.res.status(200).json({ business: 'has been deleted' });
-    }
-    return this.res.status(404).json({ business: 'cannot delete a business that  does not exist' });
+   * Delete a business
+   * @param {*} req
+   * @param {*} res
+   * @returns {json} response
+   */
+  static deleteBusiness(req, res) {
+    const { businessId } = req.params;
+    business.forEach((profile, index) => {
+      if (profile.id === parseInt(businessId, 10)) {
+        business.splice(index, 1);
+        return res.status(200).json({ business: 'has been deleted' });
+      }
+    });
+    return res.status(404).json({ business: 'cannot delete a business that  does not exist' });
   }
   /**
-  * adds a review to a business
-  * @returns {init} returns  status 201
- */
-  createReview() {
+   * Add review to business
+   * @param {*} req
+   * @param {*} res
+   * @returns {json} response
+   */
+  static createReview(req, res) {
+    const { businessId } = req.params;
     const {
       id, reviewTitle, reviewname, reviewDescription, reviewDate
-    } = this.req.body;
-    ReviewData.push({
-      id,
-      businessId: this.req.params.businessId,
-      reviewTitle,
-      reviewname,
-      reviewDescription,
-      reviewDate
+    } = req.body;
+    review.push({
+      id, businessId, reviewTitle, reviewname, reviewDescription, reviewDate
     });
-    return this.res.status(200).json({ review: 'has been added' });
+    return res.status(200).json({ review: 'has been added' });
   }
   /**
-  * checks if a business exists and adds a review to it
-  * @returns {init} returns error or status 200
- */
-  getReviews() {
-    const reviews = ReviewData
-      .filter(review => parseInt(this.req.params.businessId, 10) === review.businessId);
-    if (reviews.length > 0) return this.res.status(200).json({ reviews });
-    return this.res.status(404).json({ business: 'there are no reviews for this business' });
+   * Retrieve reviews for a business
+   * @param {*} req
+   * @param {*} res
+   * @returns {json} response
+   */
+  static getReviews(req, res) {
+    const { businessId } = req.params;
+    const businessReviews = review
+      .filter(reviews => parseInt(businessId, 10) === reviews.businessId);
+    if (businessReviews.length > 0) return res.status(200).json({ businessReviews });
+    return res.status(404).json({ business: 'there are no reviews for this business' });
   }
 }
