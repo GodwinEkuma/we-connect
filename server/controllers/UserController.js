@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import users from '../data/users';
 import models from '../models';
 
@@ -16,6 +17,7 @@ export default class UserController {
     const {
       email, password, firstName, lastName
     } = req.body;
+    const hashPassword = bcrypt.hashSync(password, 10);
     User.findOne({ where: { email } })
       .then((foundUser) => {
         if (foundUser) {
@@ -26,7 +28,7 @@ export default class UserController {
         } else if (!foundUser) {
           User.create({
             email,
-            password,
+            password: hashPassword,
             firstName,
             lastName
           })
