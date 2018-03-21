@@ -32,7 +32,6 @@ const validator = {
     businessAddress: Joi.string().required()
   }),
   signUpSchema: Joi.object().keys({
-    id: Joi.number(),
     email: Joi.string().email().required(),
     password: Joi.string().required(),
     firstName: Joi.string().required(),

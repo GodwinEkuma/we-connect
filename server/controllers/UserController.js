@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import users from '../data/users';
 import models from '../models';
+import signToken from '../helpers/signToken';
 
 const { User } = models;
 /**
@@ -34,9 +35,11 @@ export default class UserController {
           })
             .then((newUser) => {
               if (newUser) {
+                const token = signToken(newUser);
                 return res.status(201).json({
                   error: false,
                   message: 'sign up succesful',
+                  token,
                   user: {
                     id: newUser.id,
                     email: newUser.email,
