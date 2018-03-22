@@ -9,9 +9,9 @@ const config = {
     dialect: 'postgres'
   },
   test: {
-    username: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE_TEST_NAME,
+    username: 'psotgres',
+    password: '',
+    database: 'test',
     host: '127.0.0.1',
     dialect: 'postgres'
   },
