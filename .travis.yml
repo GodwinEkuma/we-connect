@@ -1,16 +1,19 @@
 language: node_js
 node_js:
 - "stable"
-install:
-  - npm install
-script:
-  - npm test
-  - npm run coverage
 env:
   - NODE_ENV=test
-  - DB_URL_TEST = postgres://vrwviksz:ABMEDm5rVUJDIhRWWJoHfNisjJOqI6n7@stampy.db.elephantsql.com:5432/vrwviksz
 cache:
   directories:
     - "node_modules"
+services:
+  - postgresql
+before_script:
+  - psql -c 'create database weconnect-test;' -U postgres
+  - npm install
+  - sequelize db:migrate && sequelize db:seed:all
+script:
+  - npm test
+  - npm run coverage
 after_success :
     - npm run coverage
