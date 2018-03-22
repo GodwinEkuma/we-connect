@@ -9,7 +9,7 @@ cache:
 services:
   - postgresql
 before_script:
-  - psql -c 'create database weconnect-test;' -U postgres
+  - psql -c 'create database test;' -U postgres
   - npm install
   - sequelize db:migrate && sequelize db:seed:all
 script:
