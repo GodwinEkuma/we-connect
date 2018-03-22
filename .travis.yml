@@ -1,6 +1,8 @@
 language: node_js
 node_js:
 - "stable"
+install:
+  - npm install
 env:
   - NODE_ENV=test
 cache:
@@ -10,8 +12,8 @@ services:
   - postgresql
 before_script:
   - psql -c 'create database test;' -U postgres
-  - npm install
-  - sequelize db:migrate && sequelize db:seed:all
+  - sequelize db:migrate
+  - sequelize db:seed:all
 script:
   - npm test
   - npm run coverage
