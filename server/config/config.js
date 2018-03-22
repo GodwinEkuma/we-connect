@@ -9,7 +9,7 @@ const config = {
     dialect: 'postgres'
   },
   test: {
-    username: 'psotgres',
+    username: 'postgres',
     password: '',
     database: 'test',
     host: '127.0.0.1',
