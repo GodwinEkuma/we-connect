@@ -8,6 +8,7 @@ script:
   - npm run coverage
 env:
   - NODE_ENV=test
+  - DB_URL_TEST = postgres://vrwviksz:ABMEDm5rVUJDIhRWWJoHfNisjJOqI6n7@stampy.db.elephantsql.com:5432/vrwviksz
 cache:
   directories:
     - "node_modules"
