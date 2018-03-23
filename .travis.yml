@@ -10,9 +10,6 @@ cache:
     - "node_modules"
 services:
   - postgresql
-before_script:
-  - psql -c 'create database weconnect-test;' -U postgres
-  - sequelize db:migrate
 script:
   - npm test
   - npm run coverage
