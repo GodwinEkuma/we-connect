@@ -5,7 +5,7 @@ install:
   - npm install
 env:
   - NODE_ENV=test
- cache:
+cache:
   directories:
     - "node_modules"
 
