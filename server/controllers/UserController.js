@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt';
-import users from '../data/users';
 import models from '../models';
 import signToken from '../helpers/signToken';
 
@@ -68,15 +67,38 @@ export default class UserController {
    */
   static signIn(req, res) {
     const { email, password } = req.body;
-    users.forEach((aUser) => {
-      if (email === aUser.email && password === aUser.password) {
+    User.findOne({ where: { email } })
+      .then((foundUser) => {
+        if (!foundUser) {
+          return res.status(401).json({
+            error: true,
+            message: 'Email does not exist'
+          });
+        } else if (!bcrypt.compareSync(password, foundUser.password)) {
+          return res.status(401).json({
+            error: true,
+            message: 'the password does not match the user'
+          });
+        }
+        const token = signToken(foundUser);
         return res.status(200).json({
-          message: 'Logged in successfully'
+          error: false,
+          message: 'Login was succesful',
+          token,
+          user: {
+            id: foundUser.id,
+            firstName: foundUser.firstName,
+            lastName: foundUser.lastName
+          }
         });
-      }
-    });
-    return res.status(400).json({
-      message: 'Unable to Log in'
-    });
+      })
+      .catch((error) => {
+        if (error) {
+          return res.status(500).json({
+            error: true,
+            message: 'Internal server error'
+          });
+        }
+      });
   }
 }

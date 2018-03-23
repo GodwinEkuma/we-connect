@@ -14,6 +14,13 @@ module.exports = {
     database: 'weconnect_test',
     host: '127.0.0.1',
     dialect: 'postgres'
+  },
+  localtest: {
+    username: 'postgres',
+    password: 'postgres',
+    database: 'weconnect_test',
+    host: '127.0.0.1',
+    dialect: 'postgres'
   }
 };
 
