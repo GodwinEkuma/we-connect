@@ -5,8 +5,7 @@ install:
   - npm install
 env:
   - NODE_ENV=test
-  - DB_URL_TEST = postgres://dxuksonr:EfqacJhATNlVrIpeiVcUvXeZMNMEl9tq@stampy.db.elephantsql.com:5432/dxuksonr
-cache:
+ cache:
   directories:
     - "node_modules"
 
