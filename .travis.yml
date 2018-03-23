@@ -5,15 +5,10 @@ install:
   - npm install
 env:
   - NODE_ENV=test
+  - DB_URL_TEST = postgres://dxuksonr:EfqacJhATNlVrIpeiVcUvXeZMNMEl9tq@stampy.db.elephantsql.com:5432/dxuksonr
 cache:
   directories:
     - "node_modules"
-addons:
-  postgresql: "9.4"
-services:
-  - postgresql
-before_script:
-  - psql -c 'create database weconnect_test;' -U postgres
 script:
   - npm test
   - npm run coverage
