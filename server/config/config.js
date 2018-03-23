@@ -9,12 +9,9 @@ const config = {
     dialect: 'postgres'
   },
   test: {
-    username: 'postgres',
-    password: '',
-    database: 'test',
-    host: '127.0.0.1',
+    use_env_variable: 'DB_URL_TEST',
     dialect: 'postgres'
-  },
+  }
 };
 
 module.exports = config;

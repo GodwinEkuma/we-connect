@@ -4,7 +4,10 @@
   "description": "An application that connects businesses and individuals",
   "main": "app.js",
   "scripts": {
-    "test": "nyc --reporter=html --reporter=text mocha ./server/test/ --exit --timeout 10000 --compilers js:babel-register ",
+    "unmigrate": "sequelize db:migrate:undo:all",
+    "migrate": "npm run unmigrate && sequelize db:migrate",
+    "pretest": "set NODE_ENV=test  && sequelize db:migrate",
+    "test": "set NODE_ENV=test nyc --reporter=html --reporter=text mocha ./server/test/ --exit --timeout 10000 --compilers js:babel-register ",
     "clean": "rimraf dist",
     "build": "npm run clean && mkdir dist && babel server -s -d dist",
     "start": "npm run build && babel-watch dist/app.js",

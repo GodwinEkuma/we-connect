@@ -185,7 +185,7 @@ describe('POST auth/signup', () => {
     chai.request(app)
       .post('/api/v1/auth/signup')
       .send({
-        email: 'uuuuu@gmail.com',
+        email: 'godwinoko@gmail.com',
         password: 'godwin1234',
         firstName: 'Godwin',
         lastName: 'Ekuma'
