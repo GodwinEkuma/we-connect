@@ -9,7 +9,10 @@ module.exports = {
     dialect: 'postgres'
   },
   test: {
-    use_env_variable: 'DB_URL_TEST',
+    username: 'postgres',
+    password: '',
+    database: 'weconnect_test',
+    host: '127.0.0.1',
     dialect: 'postgres'
   }
 };
