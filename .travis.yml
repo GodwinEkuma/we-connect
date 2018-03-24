@@ -8,6 +8,9 @@ env:
 cache:
   directories:
     - "node_modules"
+before_script:
+  - sequelize db:migrate:undo:all
+  - sequelize db:migrate
 script:
   - npm test
   - npm run coverage
