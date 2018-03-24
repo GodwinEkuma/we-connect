@@ -1,29 +1,77 @@
 import business from '../data/business';
 import review from '../data/review';
+import models from '../models';
 import findBusiness from '../helpers/findBusiness';
+
+const { Business } = models;
 
 /**
  * A class that mannipulates all the business routes
  */
-export default class Business {
+export default class BusinessController {
   /**
    * Add a new business
-   * @param {*} req
-   * @param {*} res
+   * @param {object} req
+   * @param {object} res
    * @returns {json} response
    */
   static createBusiness(req, res) {
-    const { id } = req.body;
-    if (findBusiness(id)) {
-      return res.status(403).json({ business: 'already exist' });
-    }
-    business.push(req.body);
-    return res.status(200).json({ business: 'has been created' });
+    const {
+      businessName,
+      businessAddress,
+      businessCategory,
+      businessEmail,
+      businessDescription,
+      businessPhone,
+      businessWebsite,
+      UserId
+    } = req.body;
+    Business.findOne({ where: { businessName } })
+      .then((foundBusiness) => {
+        if (foundBusiness) {
+          return res.status(403).json({
+            message: 'A business with such name already exist'
+          });
+        }
+        Business.create({
+          businessName,
+          businessAddress,
+          businessCategory,
+          businessEmail,
+          businessDescription,
+          businessPhone,
+          businessWebsite,
+          UserId
+        })
+          .then((newBusiness) => {
+            if (newBusiness) {
+              return res.status(201).json({
+                message: 'business has been created successfuly',
+                business: {
+                  id: newBusiness.id,
+                  businessName: newBusiness.businessName,
+                  businessEmail: newBusiness.businessEmail,
+                  businessAddress: newBusiness.businessAddress,
+                  businessCategory: newBusiness.businessCategory,
+                  businessDescription: newBusiness.businessDescription,
+                  businessPhone: newBusiness.businessPhone,
+                  businessWebsite: newBusiness.businessWebsite
+                }
+              });
+            }
+          })
+          .catch((error) => {
+            res.status(500).json({
+              message: 'an error has ocurred',
+              error: error.name
+            });
+          });
+      });
   }
   /**
    * Retrieve a  business
-   * @param {*} req
-   * @param {*} res
+   * @param {object} req
+   * @param {object} res
    * @returns {json} response
    */
   static getBusiness(req, res) {
@@ -36,8 +84,8 @@ export default class Business {
   }
   /**
    * Retrive all businesses
-   * @param {*} req
-   * @param {*} res
+   * @param {object} req
+   * @param {object} res
    * @returns {json} response of all businesses
    */
   static getAllBusiness(req, res) {
@@ -46,8 +94,8 @@ export default class Business {
   }
   /**
    * update the details of a  business
-   * @param {*} req
-   * @param {*} res
+   * @param {object} req
+   * @param {object} res
    * @returns {json} response
    */
   static updateBusiness(req, res) {
@@ -72,8 +120,8 @@ export default class Business {
   }
   /**
    * Delete a business
-   * @param {*} req
-   * @param {*} res
+   * @param {object} req
+   * @param {object} res
    * @returns {json} response
    */
   static deleteBusiness(req, res) {
@@ -88,8 +136,8 @@ export default class Business {
   }
   /**
    * Add review to business
-   * @param {*} req
-   * @param {*} res
+   * @param {object} req
+   * @param {object} res
    * @returns {json} response
    */
   static createReview(req, res) {
@@ -104,8 +152,8 @@ export default class Business {
   }
   /**
    * Retrieve reviews for a business
-   * @param {*} req
-   * @param {*} res
+   * @param {object} req
+   * @param {object} res
    * @returns {json} response
    */
   static getReviews(req, res) {

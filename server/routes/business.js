@@ -1,29 +1,30 @@
 import express from 'express';
-import business from '../controllers/business';
+import BusinessController from '../controllers/BusinessController';
 import query from '../middlewares/query';
+import auth from '../middlewares/auth';
 import { profileValidator, reviewValidator } from '../validator';
 
 const router = express.Router();
 
 // create a business route
-router.post('/businesses', profileValidator, business.createBusiness);
+router.post('/businesses', auth, profileValidator, BusinessController.createBusiness);
 
 // fetch a business
-router.get('/businesses/:businessId', business.getBusiness);
+router.get('/businesses/:businessId', BusinessController.getBusiness);
 
 // fetch all businesses
-router.get('/businesses', query, business.getAllBusiness);
+router.get('/businesses', query, BusinessController.getAllBusiness);
 
 // update a business
-router.put('/businesses/:businessId', profileValidator, business.updateBusiness);
+router.put('/businesses/:businessId', profileValidator, BusinessController.updateBusiness);
 
 // delete a business
-router.delete('/businesses/:businessId', business.deleteBusiness);
+router.delete('/businesses/:businessId', BusinessController.deleteBusiness);
 
 // add a review to a business
-router.post('/businesses/:businessId/reviews', reviewValidator, business.createReview);
+router.post('/businesses/:businessId/reviews', reviewValidator, BusinessController.createReview);
 
 // fetch all reviews for a business
-router.get('/businesses/:businessId/reviews', business.getReviews);
+router.get('/businesses/:businessId/reviews', BusinessController.getReviews);
 
 export default router;
