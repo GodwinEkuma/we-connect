@@ -9,6 +9,8 @@ cache:
   directories:
     - "node_modules"
 before_script:
+  - createuser godwin -s -U postgres
+  - createdb weconnect_test --username=godwin
   - sequelize db:migrate:undo:all
   - sequelize db:migrate
 script:
