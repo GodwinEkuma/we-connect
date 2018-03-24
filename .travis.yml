@@ -11,8 +11,7 @@ cache:
 services:
   - postgresql
 before_script:
-  - createuser godwin -s -U postgres
-  - createdb weconnect_test --username=godwin
+  - psql -c 'create database weconnect_test;' -U postgres
   - sequelize db:migrate
 script:
   - npm test
