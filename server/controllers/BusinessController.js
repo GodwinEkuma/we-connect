@@ -97,8 +97,87 @@ export default class BusinessController {
    * @returns {json} response of all businesses
    */
   static getAllBusiness(req, res) {
-    if (business.length >= 1) return res.status(200).json({ business });
-    return res.status(404).json({ business: 'No business has been added to database' });
+    const { location, category } = req.params;
+    if (location || category) {
+      Business.findAll({
+        where: {
+          $or: [
+            {
+              businessAddress: {
+                $ilike: `%${location}'%`
+              },
+              businessCategory: category
+            }
+          ]
+        }
+      })
+        .then((foundBusiness) => {
+          if (!foundBusiness) {
+            return res.status(404).json({
+              message: 'There are no businesses found in this location'
+            });
+          }
+          return res.status(200).json({
+            message: 'Businesses has been retrived successfully',
+            foundBusiness
+          });
+        })
+        .catch((error) => {
+          res.status(500).json({
+            message: 'An error has occured',
+            error: error.name
+          });
+        });
+    }
+    if (location && category) {
+      Business.findAll({
+        where: {
+          $and: [
+            {
+              businessAddress: {
+                $ilike: `%${location}'%`
+              },
+              businessCategory: category
+            }
+          ]
+        }
+      })
+        .then((foundBusiness) => {
+          if (!foundBusiness) {
+            return res.status(404).json({
+              message: 'There are no businesses found in this location'
+            });
+          }
+          return res.status(200).json({
+            message: 'Businesses has been retrived successfully',
+            foundBusiness
+          });
+        })
+        .catch((error) => {
+          res.status(500).json({
+            message: 'An error has occured',
+            error: error.name
+          });
+        });
+    }
+    return Business
+      .findAll()
+      .then((allBusiness) => {
+        if (!allBusiness) {
+          return res.status(404).json({
+            message: 'No business has been added to the database'
+          });
+        }
+        return res.status(200).json({
+          message: 'All businesses has been retrived succesfully'
+        });
+      })
+      .catch((error) => {
+        res.status(500).json({
+          message: 'An error has occured',
+          error: error.name
+        });
+      });
   }
   /**
    * update the details of a  business
