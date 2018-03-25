@@ -2,9 +2,128 @@ import chaiHttp from 'chai-http';
 import chai from 'chai';
 import app from '../app';
 
+
 const { expect } = chai;
 
 chai.use(chaiHttp);
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTUyMTk0NzE4NjgzMSwiZXhwIjoxNTI0NTM5MTg2ODMxfQ.k_SV2YG9P9aIVtaDFp_XFzw781gj4mhm6U1YnUOypoo';
+
+// Test for post auth/signup
+describe('POST auth/signup', () => {
+  it('it should not post a signup  without email, password, business name, category and name', (done) => {
+    chai.request(app)
+      .post('/api/v1/auth/signup')
+      .send({
+        id: 8,
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.property('isJoi');
+        expect(res.body).to.have.property('name');
+        expect(res.body).to.have.property('details');
+        expect(res.body).to.have.property('_object');
+        done();
+      });
+  });
+  it('it should post a signup with email, password, business, firstname and lastname', (done) => {
+    chai.request(app)
+      .post('/api/v1/auth/signup')
+      .send({
+        email: 'godwinamara@gmail.com',
+        password: 'godwin1234',
+        firstName: 'Godwin',
+        lastName: 'Ekuma'
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(201);
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.property('message').a('string');
+        done();
+      });
+  });
+});
+
+// Test for post auth/signin
+describe('POST auth/signin', () => {
+  it('it should not  signin  without email and password', (done) => {
+    chai.request(app)
+      .post('/api/v1/auth/signin')
+      .send({
+        email: ''
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.property('isJoi');
+        expect(res.body).to.have.property('name');
+        expect(res.body).to.have.property('details');
+        expect(res.body).to.have.property('_object');
+        done();
+      });
+  });
+  it('it should sigin a user with email and password', (done) => {
+    chai.request(app)
+      .post('/api/v1/auth/signin')
+      .send({
+        email: 'godwinamara@gmail.com',
+        password: 'godwin1234',
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.property('message').a('string');
+        done();
+      });
+  });
+});
+
+// Test for post business
+describe('POST businesses', () => {
+  it('it should not post a business without name category and address', (done) => {
+    chai.request(app)
+      .post('/api/v1/businesses')
+      .set('x-access-token', token)
+      .send({
+        id: 1,
+        businessPhone: '0133512053',
+        businessEmail: 'info@instrap.com',
+        businessWebsite: 'https//:instrap.com',
+        businessDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        businessLogo: '../../template/images/user2.png',
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.property('isJoi');
+        expect(res.body).to.have.property('name');
+        expect(res.body).to.have.property('details');
+        expect(res.body).to.have.property('_object');
+        done();
+      });
+  });
+  it('it should post a business with name category and address', (done) => {
+    chai.request(app)
+      .post('/api/v1/businesses')
+      .set('x-access-token', token)
+      .send({
+        businessName: 'Instrap Solutions Limited',
+        businessPhone: '0133512053',
+        businessEmail: 'info@instrap.com',
+        businessCategory: 'Web Development and Graphics',
+        businessWebsite: 'https//:instrap.com',
+        businessDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        businessAddress: '15 Abayomi Street, Surulere, Lagos.',
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(201);
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.property('message').a('string');
+        expect(res.body).to.have.property('newBusiness').a('object');
+        done();
+      });
+  });
+});
 
 // Test for getting all business
 describe('GET business', () => {
@@ -23,12 +142,11 @@ describe('GET business', () => {
 describe('GET business/id', () => {
   it('it should return business by id', (done) => {
     chai.request(app)
-      .get('/api/v1/businesses/4')
+      .get('/api/v1/businesses/1')
       .end((err, res) => {
         expect(res).to.have.status(200);
-        expect(res.body).to.have.property('businessName');
-        expect(res.body).to.have.property('businessCategory');
-        expect(res.body).to.have.property('businessAddress');
+        expect(res.body).to.have.property('message');
+        expect(res.body).to.have.property('foundBusiness');
         done();
       });
   });
@@ -46,7 +164,7 @@ describe('GET business/id', () => {
 describe('GET  /businesses?location=location&category=category', () => {
   it('it should get all businesses by location', (done) => {
     chai.request(app)
-      .get('/api/v1/businesses?location=lekki')
+      .get('/api/v1/businesses?location=Surulere')
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.a('object');
@@ -118,121 +236,6 @@ describe('GET businesses/:id/reviews', () => {
   });
 });
 
-// Test for post business
-describe('POST businesses', () => {
-  it('it should not post a business without name category and address', (done) => {
-    chai.request(app)
-      .post('/api/v1/businesses')
-      .send({
-        id: 1,
-        businessPhone: '0133512053',
-        businessEmail: 'info@instrap.com',
-        businessWebsite: 'https//:instrap.com',
-        businessDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-        businessLogo: '../../template/images/user2.png',
-      })
-      .end((err, res) => {
-        expect(res).to.have.status(400);
-        expect(res.body).to.be.a('object');
-        expect(res.body).to.have.property('isJoi');
-        expect(res.body).to.have.property('name');
-        expect(res.body).to.have.property('details');
-        expect(res.body).to.have.property('_object');
-        done();
-      });
-  });
-  it('it should post a business with name category and address', (done) => {
-    chai.request(app)
-      .post('/api/v1/businesses')
-      .send({
-        id: 5,
-        businessName: 'Instrap Solutions Limited',
-        businessPhone: '0133512053',
-        businessEmail: 'info@instrap.com',
-        businessCategory: 'Web Development and Graphics',
-        businessWebsite: 'https//:instrap.com',
-        businessDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-        businessAddress: '15 Abayomi Street, Surulere, Lagos.',
-      })
-      .end((err, res) => {
-        expect(res).to.have.status(200);
-        expect(res.body).to.be.a('object');
-        expect(res.body).to.have.property('business').a('string');
-        done();
-      });
-  });
-});
-
-// Test for post auth/signup
-describe('POST auth/signup', () => {
-  it('it should not post a signup  without email, password, business name, category and name', (done) => {
-    chai.request(app)
-      .post('/api/v1/auth/signup')
-      .send({
-        id: 8,
-      })
-      .end((err, res) => {
-        expect(res).to.have.status(400);
-        expect(res.body).to.be.a('object');
-        expect(res.body).to.have.property('isJoi');
-        expect(res.body).to.have.property('name');
-        expect(res.body).to.have.property('details');
-        expect(res.body).to.have.property('_object');
-        done();
-      });
-  });
-  it('it should post a signup with email, password, business, firstname and lastname', (done) => {
-    chai.request(app)
-      .post('/api/v1/auth/signup')
-      .send({
-        email: 'godwinamara@gmail.com',
-        password: 'godwin1234',
-        firstName: 'Godwin',
-        lastName: 'Ekuma'
-      })
-      .end((err, res) => {
-        expect(res).to.have.status(201);
-        expect(res.body).to.be.a('object');
-        expect(res.body).to.have.property('message').a('string');
-        done();
-      });
-  });
-});
-
-// Test for post auth/signin
-describe('POST auth/signin', () => {
-  it('it should not  signin  without email and password', (done) => {
-    chai.request(app)
-      .post('/api/v1/auth/signin')
-      .send({
-        email: ''
-      })
-      .end((err, res) => {
-        expect(res).to.have.status(400);
-        expect(res.body).to.be.a('object');
-        expect(res.body).to.have.property('isJoi');
-        expect(res.body).to.have.property('name');
-        expect(res.body).to.have.property('details');
-        expect(res.body).to.have.property('_object');
-        done();
-      });
-  });
-  it('it should sigin a user with email and password', (done) => {
-    chai.request(app)
-      .post('/api/v1/auth/signin')
-      .send({
-        email: 'info@gmail.com',
-        password: 'godwin1234'
-      })
-      .end((err, res) => {
-        expect(res).to.have.status(200);
-        expect(res.body).to.be.a('object');
-        expect(res.body).to.have.property('message').a('string');
-        done();
-      });
-  });
-});
-
 // Test for POST businesses/:businessId/reviews
 describe('POST businesses/:businessId/reviews', () => {
   it('it should not post a review  without title name and description', (done) => {
@@ -266,51 +269,6 @@ describe('POST businesses/:businessId/reviews', () => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.a('object');
         expect(res.body).to.have.property('review').a('string');
-        done();
-      });
-  });
-});
-
-// Test for put  businesses/id
-describe('PUT businesses/id', () => {
-  it('it should not update a business without name, category and address', (done) => {
-    chai.request(app)
-      .put('/api/v1/businesses/1')
-      .send({
-        id: 1,
-        businessPhone: '0133512053',
-        businessEmail: 'info@instrap.com',
-        businessWebsite: 'https//:instrap.com',
-        businessDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-        businessAddress: '1 Fola Ajala Street, Lekki, Lagos',
-      })
-      .end((err, res) => {
-        expect(res).to.have.status(400);
-        expect(res.body).to.be.a('object');
-        expect(res.body).to.have.property('isJoi');
-        expect(res.body).to.have.property('name');
-        expect(res.body).to.have.property('details');
-        expect(res.body).to.have.property('_object');
-        done();
-      });
-  });
-  it('it should update a business with name category and address', (done) => {
-    chai.request(app)
-      .put('/api/v1/businesses/1')
-      .send({
-        id: 5,
-        businessName: 'Instrap Solutions Limited',
-        businessPhone: '0133512053',
-        businessEmail: 'info@instrap.com',
-        businessCategory: 'Web Development and Graphics',
-        businessWebsite: 'https//:instrap.com',
-        businessDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-        businessAddress: '15 Abayomi Street, Surulere, Lagos.',
-      })
-      .end((err, res) => {
-        expect(res).to.have.status(200);
-        expect(res.body).to.be.a('object');
-        expect(res.body).to.have.property('business').a('string');
         done();
       });
   });

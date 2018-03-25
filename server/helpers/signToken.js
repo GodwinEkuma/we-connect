@@ -5,7 +5,7 @@ const signToken = (user) => {
     return jwt.sign({
       sub: user.id,
       iat: new Date().getTime(),
-      exp: new Date().setDate(new Date().getDate() + 1)
+      exp: new Date().setDate(new Date().getDate() + 30)
     }, process.env.JWT_SECRET);
   }
 };

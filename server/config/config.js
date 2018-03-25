@@ -9,8 +9,8 @@ module.exports = {
     dialect: 'postgres'
   },
   test: {
-    username: 'postgres',
-    password: '',
+    username: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD,
     database: 'weconnect_test',
     host: '127.0.0.1',
     dialect: 'postgres'
@@ -18,7 +18,7 @@ module.exports = {
   localtest: {
     username: 'postgres',
     password: 'postgres',
-    database: 'weconnect-test',
+    database: 'weconnect_test',
     host: '127.0.0.1',
     dialect: 'postgres'
   }
