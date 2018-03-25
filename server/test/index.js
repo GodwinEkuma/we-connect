@@ -164,7 +164,7 @@ describe('GET business/id', () => {
 describe('GET  /businesses?location=location&category=category', () => {
   it('it should get all businesses by location', (done) => {
     chai.request(app)
-      .get('/api/v1/businesses?location=lekki')
+      .get('/api/v1/businesses?location=Surulere')
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.a('object');
