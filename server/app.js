@@ -5,8 +5,8 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
-import Business from './routes/business';
-import Users from './routes/users';
+import business from './routes/business';
+import users from './routes/users';
 
 const app = express();
 dotenv.config(); // add env file
@@ -26,8 +26,8 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.get('/', (req, res) => {
   res.status(200).json({ message: 'Welcome to we-connect where businesses and humans meet' });
 });
-app.use('/api/v1', Business);
-app.use('/api/v1', Users);
+app.use('/api/v1', business);
+app.use('/api/v1', users);
 app.get('*', (req, res) => {
   res.status(404).json({ message: 'Welcome to the begining of nothingness' });
 });
