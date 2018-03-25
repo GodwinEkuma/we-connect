@@ -2,9 +2,11 @@ import chaiHttp from 'chai-http';
 import chai from 'chai';
 import app from '../app';
 
+
 const { expect } = chai;
 
 chai.use(chaiHttp);
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTUyMTk0NzE4NjgzMSwiZXhwIjoxNTI0NTM5MTg2ODMxfQ.k_SV2YG9P9aIVtaDFp_XFzw781gj4mhm6U1YnUOypoo';
 
 // Test for post auth/signup
 describe('POST auth/signup', () => {
@@ -71,6 +73,53 @@ describe('POST auth/signin', () => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.a('object');
         expect(res.body).to.have.property('message').a('string');
+        done();
+      });
+  });
+});
+
+// Test for post business
+describe('POST businesses', () => {
+  it('it should not post a business without name category and address', (done) => {
+    chai.request(app)
+      .post('/api/v1/businesses')
+      .set('x-access-token', token)
+      .send({
+        id: 1,
+        businessPhone: '0133512053',
+        businessEmail: 'info@instrap.com',
+        businessWebsite: 'https//:instrap.com',
+        businessDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        businessLogo: '../../template/images/user2.png',
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.property('isJoi');
+        expect(res.body).to.have.property('name');
+        expect(res.body).to.have.property('details');
+        expect(res.body).to.have.property('_object');
+        done();
+      });
+  });
+  it('it should post a business with name category and address', (done) => {
+    chai.request(app)
+      .post('/api/v1/businesses')
+      .set('x-access-token', token)
+      .send({
+        businessName: 'Instrap Solutions Limited',
+        businessPhone: '0133512053',
+        businessEmail: 'info@instrap.com',
+        businessCategory: 'Web Development and Graphics',
+        businessWebsite: 'https//:instrap.com',
+        businessDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        businessAddress: '15 Abayomi Street, Surulere, Lagos.',
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(201);
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.property('message').a('string');
+        expect(res.body).to.have.property('newBusiness').a('object');
         done();
       });
   });
@@ -188,50 +237,6 @@ describe('GET businesses/:id/reviews', () => {
   });
 });
 
-// Test for post business
-describe('POST businesses', () => {
-  it('it should not post a business without name category and address', (done) => {
-    chai.request(app)
-      .post('/api/v1/businesses')
-      .send({
-        id: 1,
-        businessPhone: '0133512053',
-        businessEmail: 'info@instrap.com',
-        businessWebsite: 'https//:instrap.com',
-        businessDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-        businessLogo: '../../template/images/user2.png',
-      })
-      .end((err, res) => {
-        expect(res).to.have.status(400);
-        expect(res.body).to.be.a('object');
-        expect(res.body).to.have.property('isJoi');
-        expect(res.body).to.have.property('name');
-        expect(res.body).to.have.property('details');
-        expect(res.body).to.have.property('_object');
-        done();
-      });
-  });
-  it('it should post a business with name category and address', (done) => {
-    chai.request(app)
-      .post('/api/v1/businesses')
-      .send({
-        id: 5,
-        businessName: 'Instrap Solutions Limited',
-        businessPhone: '0133512053',
-        businessEmail: 'info@instrap.com',
-        businessCategory: 'Web Development and Graphics',
-        businessWebsite: 'https//:instrap.com',
-        businessDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-        businessAddress: '15 Abayomi Street, Surulere, Lagos.',
-      })
-      .end((err, res) => {
-        expect(res).to.have.status(200);
-        expect(res.body).to.be.a('object');
-        expect(res.body).to.have.property('business').a('string');
-        done();
-      });
-  });
-});
 // Test for POST businesses/:businessId/reviews
 describe('POST businesses/:businessId/reviews', () => {
   it('it should not post a review  without title name and description', (done) => {

@@ -23,49 +23,42 @@ export default class BusinessController {
       businessEmail,
       businessDescription,
       businessPhone,
-      businessWebsite,
-      UserId
+      businessWebsite
     } = req.body;
-    Business.findOne({ where: { businessName } })
+    const { userId } = req;
+    Business
+      .findOne({ where: { businessName } })
       .then((foundBusiness) => {
         if (foundBusiness) {
           return res.status(403).json({
             message: 'A business with such name already exist'
           });
         }
-        Business.create({
-          businessName,
-          businessAddress,
-          businessCategory,
-          businessEmail,
-          businessDescription,
-          businessPhone,
-          businessWebsite,
-          UserId
-        })
-          .then((newBusiness) => {
-            if (newBusiness) {
-              return res.status(201).json({
-                message: 'business has been created successfuly',
-                business: {
-                  id: newBusiness.id,
-                  businessName: newBusiness.businessName,
-                  businessEmail: newBusiness.businessEmail,
-                  businessAddress: newBusiness.businessAddress,
-                  businessCategory: newBusiness.businessCategory,
-                  businessDescription: newBusiness.businessDescription,
-                  businessPhone: newBusiness.businessPhone,
-                  businessWebsite: newBusiness.businessWebsite
-                }
-              });
-            }
-          })
-          .catch((error) => {
-            res.status(500).json({
-              message: 'an error has ocurred',
-              error: error.name
-            });
+        return Business
+          .create({
+            businessName,
+            businessAddress,
+            businessCategory,
+            businessEmail,
+            businessDescription,
+            businessPhone,
+            businessWebsite,
+            userId
           });
+      })
+      .then((newBusiness) => {
+        if (newBusiness) {
+          return res.status(201).json({
+            message: 'business has been added succesfully',
+            newBusiness
+          });
+        }
+      })
+      .catch((error) => {
+        res.status(500).json({
+          message: 'an error ocurred',
+          error: error.name
+        });
       });
   }
   /**
