@@ -1,7 +1,6 @@
 import business from '../data/business';
 import review from '../data/review';
 import models from '../models';
-import findBusiness from '../helpers/findBusiness';
 
 const { Business } = models;
 
@@ -69,11 +68,27 @@ export default class BusinessController {
    */
   static getBusiness(req, res) {
     const { businessId } = req.params;
-    const foundBusiness = findBusiness(parseInt(businessId, 10));
-    if (foundBusiness) {
-      return res.status(200).json(foundBusiness);
-    }
-    return res.status(404).json({ business: 'not found' });
+    Business
+      .findById(businessId)
+      .then((foundBusiness) => {
+        if (!foundBusiness) {
+          return res.status(404).json({
+            message: 'Business not found'
+          });
+        }
+        return res.status(200).json({
+          message: 'Business retrived succesfully',
+          foundBusiness
+        });
+      })
+      .catch((error) => {
+        if (error) {
+          return res.status(500).json({
+            message: 'An error occured',
+            error: error.name
+          });
+        }
+      });
   }
   /**
    * Retrive all businesses
@@ -82,8 +97,87 @@ export default class BusinessController {
    * @returns {json} response of all businesses
    */
   static getAllBusiness(req, res) {
-    if (business.length >= 1) return res.status(200).json({ business });
-    return res.status(404).json({ business: 'No business has been added to database' });
+    const { location, category } = req.params;
+    if (location || category) {
+      Business.findAll({
+        where: {
+          $or: [
+            {
+              businessAddress: {
+                $ilike: `%${location}'%`
+              },
+              businessCategory: category
+            }
+          ]
+        }
+      })
+        .then((foundBusiness) => {
+          if (!foundBusiness) {
+            return res.status(404).json({
+              message: 'There are no businesses found in this location'
+            });
+          }
+          return res.status(200).json({
+            message: 'Businesses has been retrived successfully',
+            foundBusiness
+          });
+        })
+        .catch((error) => {
+          res.status(500).json({
+            message: 'An error has occured',
+            error: error.name
+          });
+        });
+    }
+    if (location && category) {
+      Business.findAll({
+        where: {
+          $and: [
+            {
+              businessAddress: {
+                $ilike: `%${location}'%`
+              },
+              businessCategory: category
+            }
+          ]
+        }
+      })
+        .then((foundBusiness) => {
+          if (!foundBusiness) {
+            return res.status(404).json({
+              message: 'There are no businesses found in this location'
+            });
+          }
+          return res.status(200).json({
+            message: 'Businesses has been retrived successfully',
+            foundBusiness
+          });
+        })
+        .catch((error) => {
+          res.status(500).json({
+            message: 'An error has occured',
+            error: error.name
+          });
+        });
+    }
+    return Business
+      .findAll()
+      .then((allBusiness) => {
+        if (!allBusiness) {
+          return res.status(404).json({
+            message: 'No business has been added to the database'
+          });
+        }
+        return res.status(200).json({
+          message: 'All businesses has been retrived succesfully'
+        });
+      })
+      .catch((error) => {
+        res.status(500).json({
+          message: 'An error has occured',
+          error: error.name
+        });
+      });
   }
   /**
    * update the details of a  business
@@ -92,7 +186,7 @@ export default class BusinessController {
    * @returns {json} response
    */
   static updateBusiness(req, res) {
-    const { businessId } = req.params;
+    const { businessId } = req.params.business;
     const {
       businessName, businessEmail, businessPhone, businessDescription,
       businessCategory, businessWebsite, businessAddress
