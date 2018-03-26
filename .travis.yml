@@ -3,13 +3,18 @@ node_js:
 - "stable"
 install:
   - npm install
-script:
-  - npm test
-  - npm run coverage
 env:
   - NODE_ENV=test
 cache:
   directories:
     - "node_modules"
+services:
+  - postgresql
+before_script:
+  - psql -c 'create database weconnect_test;' -U postgres
+  - sequelize db:migrate
+script:
+  - npm test
+  - npm run coverage
 after_success :
     - npm run coverage
