@@ -186,24 +186,50 @@ export default class BusinessController {
    * @returns {json} response
    */
   static updateBusiness(req, res) {
-    const { businessId } = req.params.business;
+    const { businessId } = req.params;
     const {
       businessName, businessEmail, businessPhone, businessDescription,
       businessCategory, businessWebsite, businessAddress
     } = req.body;
-    business.forEach((profile) => {
-      if (profile.id === parseInt(businessId, 10)) {
-        profile.businessName = businessName || profile.businessName;
-        profile.businessEmail = businessEmail || profile.businessEmail;
-        profile.businessPhone = businessPhone || profile.businessPhone;
-        profile.businessCategory = businessCategory || profile.businessCategory;
-        profile.businessDescription = businessDescription || profile.businessDescription;
-        profile.businessWebsite = businessWebsite || profile.businessWebsite;
-        profile.businessAddress = businessAddress || profile.businessAddress;
-        return res.status(200).json({ business: 'has been updated' });
-      }
-    });
-    return res.status(404).json({ business: 'not found' });
+    return Business
+      .findById(businessId)
+      .then((foundBusiness) => {
+        if (!foundBusiness) {
+          return res.status(404).json({
+            message: 'Business not found'
+          });
+        }
+        return foundBusiness
+          .update({
+            businessName: businessName || foundBusiness.businessName,
+            businessEmail: businessEmail || foundBusiness.businessEmail,
+            businessPhone: businessPhone || foundBusiness.businessPhone,
+            businessCategory: businessCategory || foundBusiness.businessCategory,
+            businessDescription: businessDescription || foundBusiness.businessDescription,
+            businessWebsite: businessWebsite || foundBusiness.businessWebsite,
+            businessAddress: businessAddress || foundBusiness.businessAddress,
+          })
+          .then((updatedBusiness) => {
+            if (updatedBusiness) {
+              return res.status(200).json({
+                message: 'Business has been updated succesfully',
+                updatedBusiness
+              });
+            }
+          })
+          .catch((error) => {
+            res.status(500).json({
+              message: 'An error occured',
+              error: error.name
+            });
+          });
+      })
+      .catch((error) => {
+        res.status(500).json({
+          message: 'An error occured',
+          error: error.name
+        });
+      });
   }
   /**
    * Delete a business

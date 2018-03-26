@@ -6,7 +6,7 @@ import app from '../app';
 const { expect } = chai;
 
 chai.use(chaiHttp);
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTUyMTk0NzE4NjgzMSwiZXhwIjoxNTI0NTM5MTg2ODMxfQ.k_SV2YG9P9aIVtaDFp_XFzw781gj4mhm6U1YnUOypoo';
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTUyMjAzNzg0MjMzMiwiZXhwIjoxNTI0NjI5ODQyMzMyfQ.rOrcaIwrRXL3N-cNtKjSs7vbfIwJsBEYCJvGtRRDaT8';
 
 // Test for post auth/signup
 describe('POST auth/signup', () => {
@@ -231,6 +231,51 @@ describe('GET businesses/:id/reviews', () => {
       .get('/api/v1/businesses/5/reviews')
       .end((err, res) => {
         expect(res).to.have.status(404);
+        done();
+      });
+  });
+});
+
+// Test for put  businesses/id
+describe('PUT businesses/id', () => {
+  it('it should not update a business without name, category and address', (done) => {
+    chai.request(app)
+      .put('/api/v1/businesses/1')
+      .set('x-access-token', token)
+      .send({
+        businessPhone: '0133512053',
+        businessEmail: 'info@instrap.com',
+        businessWebsite: 'https//:instrap.com',
+        businessDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        businessAddress: '1 Fola Ajala Street, Lekki, Lagos',
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.property('isJoi');
+        expect(res.body).to.have.property('name');
+        expect(res.body).to.have.property('details');
+        expect(res.body).to.have.property('_object');
+        done();
+      });
+  });
+  it('it should update a business with name category and address', (done) => {
+    chai.request(app)
+      .put('/api/v1/businesses/1')
+      .set('x-access-token', token)
+      .send({
+        businessName: 'Instrap Solutions Limited',
+        businessPhone: '0133512053',
+        businessEmail: 'info@instrap.com',
+        businessCategory: 'Web Development and Graphics',
+        businessWebsite: 'https//:instrap.com',
+        businessDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        businessAddress: '15 Abayomi Street, Surulere, Lagos.',
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.property('message').a('string');
         done();
       });
   });

@@ -16,7 +16,7 @@ router.get('/businesses/:businessId', BusinessController.getBusiness);
 router.get('/businesses', query, BusinessController.getAllBusiness);
 
 // update a business
-router.put('/businesses/:businessId', profileValidator, BusinessController.updateBusiness);
+router.put('/businesses/:businessId', auth, profileValidator, BusinessController.updateBusiness);
 
 // delete a business
 router.delete('/businesses/:businessId', BusinessController.deleteBusiness);
