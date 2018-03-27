@@ -22,14 +22,13 @@ const validator = {
     next();
   },
   profileSchema: Joi.object().keys({
-    id: Joi.number(),
     businessName: Joi.string().required(),
     businessPhone: Joi.string().max(11),
     businessEmail: Joi.string().email(),
     businessCategory: Joi.string().required(),
     businessWebsite: Joi.string(),
     businessDescription: Joi.string(),
-    businessLocation: Joi.string().required()
+    businessAddress: Joi.string().required()
   }),
   signUpSchema: Joi.object().keys({
     email: Joi.string().email().required(),
