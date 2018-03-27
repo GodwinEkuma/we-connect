@@ -19,10 +19,7 @@ describe('POST auth/signup', () => {
       .end((err, res) => {
         expect(res).to.have.status(400);
         expect(res.body).to.be.a('object');
-        expect(res.body).to.have.property('isJoi');
-        expect(res.body).to.have.property('name');
-        expect(res.body).to.have.property('details');
-        expect(res.body).to.have.property('_object');
+        expect(res.body).to.have.property('message');
         done();
       });
   });
@@ -55,10 +52,8 @@ describe('POST auth/signin', () => {
       .end((err, res) => {
         expect(res).to.have.status(400);
         expect(res.body).to.be.a('object');
-        expect(res.body).to.have.property('isJoi');
-        expect(res.body).to.have.property('name');
-        expect(res.body).to.have.property('details');
-        expect(res.body).to.have.property('_object');
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.property('message');
         done();
       });
   });
@@ -95,10 +90,8 @@ describe('POST businesses', () => {
       .end((err, res) => {
         expect(res).to.have.status(400);
         expect(res.body).to.be.a('object');
-        expect(res.body).to.have.property('isJoi');
-        expect(res.body).to.have.property('name');
-        expect(res.body).to.have.property('details');
-        expect(res.body).to.have.property('_object');
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.property('message');
         done();
       });
   });
@@ -248,10 +241,8 @@ describe('POST businesses/:businessId/reviews', () => {
       .end((err, res) => {
         expect(res).to.have.status(400);
         expect(res.body).to.be.a('object');
-        expect(res.body).to.have.property('isJoi');
-        expect(res.body).to.have.property('name');
-        expect(res.body).to.have.property('details');
-        expect(res.body).to.have.property('_object');
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.property('message');
         done();
       });
   });
@@ -310,10 +301,8 @@ describe('PUT businesses/id', () => {
       .end((err, res) => {
         expect(res).to.have.status(400);
         expect(res.body).to.be.a('object');
-        expect(res.body).to.have.property('isJoi');
-        expect(res.body).to.have.property('name');
-        expect(res.body).to.have.property('details');
-        expect(res.body).to.have.property('_object');
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.property('message');
         done();
       });
   });

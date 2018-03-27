@@ -5,7 +5,7 @@ const validator = {
     const result = Joi.validate(req.body, this.profileSchema, { abortEarly: false });
     if (result.error) {
       return res.status(400).json({
-        message: 'The details supplied are in correct please check and try again'
+        message: result.error.annotate()
       });
     }
     return next();
@@ -14,7 +14,7 @@ const validator = {
     const result = Joi.validate(req.body, this.signUpSchema, { abortEarly: false });
     if (result.error) {
       return res.status(400).json({
-        message: 'The details supplied are in correct please check and try again'
+        message: result.error.annotate()
       });
     }
     return next();
@@ -23,7 +23,7 @@ const validator = {
     const result = Joi.validate(req.body, this.signInSchema, { abortEarly: false });
     if (result.error) {
       return res.status(400).json({
-        message: 'The details supplied are in correct please check and try again'
+        message: result.error.annotate()
       });
     }
     return next();
@@ -32,7 +32,7 @@ const validator = {
     const result = Joi.validate(req.body, this.reviewSchema, { abortEarly: false });
     if (result.error) {
       return res.status(400).json({
-        message: 'The details supplied are in correct please check and try again'
+        message: result.error.annotate()
       });
     }
     return next();
