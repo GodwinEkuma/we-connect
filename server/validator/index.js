@@ -29,7 +29,7 @@ const validator = {
     businessCategory: Joi.string().required(),
     businessWebsite: Joi.string(),
     businessDescription: Joi.string(),
-    businessAddress: Joi.string().required()
+    businessLocation: Joi.string().required()
   }),
   signUpSchema: Joi.object().keys({
     email: Joi.string().email().required(),
@@ -42,12 +42,9 @@ const validator = {
     password: Joi.string().required()
   }),
   reviewSchema: Joi.object().keys({
-    id: Joi.number(),
-    businessId: Joi.number(),
     reviewTitle: Joi.string().required(),
     reviewDescription: Joi.string().required(),
-    reviewname: Joi.string().required(),
-    reviewDate: Joi.string()
+    reviewName: Joi.string().required()
   })
 };
 

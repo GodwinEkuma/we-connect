@@ -22,7 +22,7 @@ router.put('/businesses/:businessId', auth, profileValidator, BusinessController
 router.delete('/businesses/:businessId', BusinessController.deleteBusiness);
 
 // add a review to a business
-router.post('/businesses/:businessId/reviews', reviewValidator, BusinessController.createReview);
+router.post('/businesses/:businessId/reviews', auth, reviewValidator, BusinessController.createReview);
 
 // fetch all reviews for a business
 router.get('/businesses/:businessId/reviews', BusinessController.getReviews);
