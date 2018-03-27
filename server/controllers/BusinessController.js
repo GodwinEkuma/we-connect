@@ -1,7 +1,7 @@
 import review from '../data/review';
 import models from '../models';
 
-const { Business } = models;
+const { Business, Review } = models;
 
 /**
  * A class that mannipulates all the business routes
@@ -275,13 +275,32 @@ export default class BusinessController {
    */
   static createReview(req, res) {
     const { businessId } = req.params;
+    const { userId } = req;
     const {
-      id, reviewTitle, reviewname, reviewDescription, reviewDate
+      reviewTitle, reviewName, reviewDescription
     } = req.body;
-    review.push({
-      id, businessId, reviewTitle, reviewname, reviewDescription, reviewDate
-    });
-    return res.status(200).json({ review: 'has been added' });
+    return Review
+      .create({
+        reviewTitle,
+        reviewName,
+        reviewDescription,
+        userId,
+        businessId
+      })
+      .then((newReview) => {
+        if (newReview) {
+          return res.status(201).json({
+            message: 'A review has been added successfully',
+            newReview
+          });
+        }
+      })
+      .catch((error) => {
+        res.status(500).json({
+          message: 'An error occured',
+          error: error.name
+        });
+      });
   }
   /**
    * Retrieve reviews for a business

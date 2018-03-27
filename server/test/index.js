@@ -285,7 +285,8 @@ describe('PUT businesses/id', () => {
 describe('POST businesses/:businessId/reviews', () => {
   it('it should not post a review  without title name and description', (done) => {
     chai.request(app)
-      .post('/api/v1/businesses/3/reviews')
+      .post('/api/v1/businesses/1/reviews')
+      .set('x-access-token', token)
       .send({
         name: ''
       })
@@ -301,19 +302,17 @@ describe('POST businesses/:businessId/reviews', () => {
   });
   it('it should post a review with name, title, and description', (done) => {
     chai.request(app)
-      .post('/api/v1/businesses/3/reviews')
+      .post('/api/v1/businesses/1/reviews')
+      .set('x-access-token', token)
       .send({
-        id: 45,
-        businessId: 1,
         reviewTitle: 'Excellent web design',
-        reviewname: 'Godwin Ekuma',
+        reviewName: 'Godwin Ekuma',
         reviewDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
-        reviewDate: '02, March, 2018'
       })
       .end((err, res) => {
-        expect(res).to.have.status(200);
+        expect(res).to.have.status(201);
         expect(res.body).to.be.a('object');
-        expect(res.body).to.have.property('review').a('string');
+        expect(res.body).to.have.property('message').a('string');
         done();
       });
   });
