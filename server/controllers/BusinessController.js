@@ -1,4 +1,3 @@
-import review from '../data/review';
 import models from '../models';
 
 const { Business, Review } = models;
@@ -310,9 +309,36 @@ export default class BusinessController {
    */
   static getReviews(req, res) {
     const { businessId } = req.params;
-    const businessReviews = review
-      .filter(reviews => parseInt(businessId, 10) === reviews.businessId);
-    if (businessReviews.length > 0) return res.status(200).json({ businessReviews });
-    return res.status(404).json({ business: 'there are no reviews for this business' });
+    Business.findById(businessId)
+      .then((foundBusiness) => {
+        if (foundBusiness) {
+          return Review
+            .findAll({
+              where: { id: foundBusiness.id }
+            })
+            .then((foundReviews) => {
+              if (foundReviews.length === 0) {
+                return res.status(404).json({
+                  message: 'There are noe reviews for this business'
+                });
+              }
+              return res.status(200).json({
+                message: 'Reviews has been retrieved successfully'
+              });
+            })
+            .catch((error) => {
+              res.status(500).json({
+                message: 'An error occured',
+                error: error.name
+              });
+            });
+        }
+      })
+      .catch((error) => {
+        res.status(500).json({
+          message: 'An error occured',
+          error: error.name
+        });
+      });
   }
 }
