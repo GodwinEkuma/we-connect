@@ -11,7 +11,7 @@ const db = {};
 
 let sequelize;
 if (envConfig.use_env_variable) {
-  sequelize = new Sequelize(process.env[envConfig.use_env_variable], envConfig);
+  sequelize = new Sequelize(process.env[envConfig.use_env_variable]);
 } else {
   sequelize = new Sequelize(envConfig.database, envConfig.username, envConfig.password, envConfig);
 }
