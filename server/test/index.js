@@ -123,6 +123,27 @@ describe('POST businesses', () => {
         done();
       });
   });
+  it('it should post a business with name category and address', (done) => {
+    chai.request(app)
+      .post('/api/v1/businesses')
+      .set('x-access-token', token)
+      .send({
+        businessName: 'InfoMall Nigeria Limited',
+        businessPhone: '0133512053',
+        businessEmail: 'info@infomall.com',
+        businessCategory: 'Web Development and Graphics',
+        businessWebsite: 'https//:instrap.com',
+        businessDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        businessAddress: '15 Abayomi Street, Surulere, Lagos.',
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(201);
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.property('message').a('string');
+        expect(res.body).to.have.property('newBusiness').a('object');
+        done();
+      });
+  });
 });
 
 // Test for getting all business
@@ -215,6 +236,43 @@ describe('GET  /businesses?location=location&category=category', () => {
   });
 });
 
+// Test for POST businesses/:businessId/reviews
+describe('POST businesses/:businessId/reviews', () => {
+  it('it should not post a review  without title name and description', (done) => {
+    chai.request(app)
+      .post('/api/v1/businesses/1/reviews')
+      .set('x-access-token', token)
+      .send({
+        name: ''
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.property('isJoi');
+        expect(res.body).to.have.property('name');
+        expect(res.body).to.have.property('details');
+        expect(res.body).to.have.property('_object');
+        done();
+      });
+  });
+  it('it should post a review with name, title, and description', (done) => {
+    chai.request(app)
+      .post('/api/v1/businesses/1/reviews')
+      .set('x-access-token', token)
+      .send({
+        reviewTitle: 'Excellent web design',
+        reviewName: 'Godwin Ekuma',
+        reviewDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(201);
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.property('message').a('string');
+        done();
+      });
+  });
+});
+
 // Test for get reviews
 describe('GET businesses/:id/reviews', () => {
   it('it should return all reviews for a business', (done) => {
@@ -228,7 +286,7 @@ describe('GET businesses/:id/reviews', () => {
   });
   it('it should return not found (404) if no reviews are found for a business', (done) => {
     chai.request(app)
-      .get('/api/v1/businesses/5/reviews')
+      .get('/api/v1/businesses/2/reviews')
       .end((err, res) => {
         expect(res).to.have.status(404);
         done();
@@ -280,44 +338,6 @@ describe('PUT businesses/id', () => {
       });
   });
 });
-
-// Test for POST businesses/:businessId/reviews
-describe('POST businesses/:businessId/reviews', () => {
-  it('it should not post a review  without title name and description', (done) => {
-    chai.request(app)
-      .post('/api/v1/businesses/1/reviews')
-      .set('x-access-token', token)
-      .send({
-        name: ''
-      })
-      .end((err, res) => {
-        expect(res).to.have.status(400);
-        expect(res.body).to.be.a('object');
-        expect(res.body).to.have.property('isJoi');
-        expect(res.body).to.have.property('name');
-        expect(res.body).to.have.property('details');
-        expect(res.body).to.have.property('_object');
-        done();
-      });
-  });
-  it('it should post a review with name, title, and description', (done) => {
-    chai.request(app)
-      .post('/api/v1/businesses/1/reviews')
-      .set('x-access-token', token)
-      .send({
-        reviewTitle: 'Excellent web design',
-        reviewName: 'Godwin Ekuma',
-        reviewDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
-      })
-      .end((err, res) => {
-        expect(res).to.have.status(201);
-        expect(res.body).to.be.a('object');
-        expect(res.body).to.have.property('message').a('string');
-        done();
-      });
-  });
-});
-
 
 // Test for getting undefind rouotes
 describe('GET undefined route', () => {
