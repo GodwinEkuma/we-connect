@@ -1,4 +1,3 @@
-import business from '../data/business';
 import review from '../data/review';
 import models from '../models';
 
@@ -99,12 +98,12 @@ export default class BusinessController {
   static getAllBusiness(req, res) {
     const { location, category } = req.params;
     if (location || category) {
-      Business.findAll({
+      return Business.findAll({
         where: {
           $or: [
             {
               businessAddress: {
-                $ilike: `%${location}'%`
+                $ilike: `%${location}%`
               },
               businessCategory: category
             }
@@ -135,7 +134,7 @@ export default class BusinessController {
           $and: [
             {
               businessAddress: {
-                $ilike: `%${location}'%`
+                $ilike: `%${location}%`
               },
               businessCategory: category
             }
@@ -189,7 +188,7 @@ export default class BusinessController {
     const { businessId } = req.params;
     const {
       businessName, businessEmail, businessPhone, businessDescription,
-      businessCategory, businessWebsite, businessAddress
+      businessCategory, businessWebsite, businessLocation
     } = req.body;
     return Business
       .findById(businessId)
@@ -207,7 +206,7 @@ export default class BusinessController {
             businessCategory: businessCategory || foundBusiness.businessCategory,
             businessDescription: businessDescription || foundBusiness.businessDescription,
             businessWebsite: businessWebsite || foundBusiness.businessWebsite,
-            businessAddress: businessAddress || foundBusiness.businessAddress,
+            businessLocation: businessLocation || foundBusiness.businessLocation,
           })
           .then((updatedBusiness) => {
             if (updatedBusiness) {
@@ -239,13 +238,34 @@ export default class BusinessController {
    */
   static deleteBusiness(req, res) {
     const { businessId } = req.params;
-    business.forEach((profile, index) => {
-      if (profile.id === parseInt(businessId, 10)) {
-        business.splice(index, 1);
-        return res.status(200).json({ business: 'has been deleted' });
-      }
-    });
-    return res.status(404).json({ business: 'cannot delete a business that  does not exist' });
+    return Business
+      .findById(businessId)
+      .then((foundBusiness) => {
+        if (!foundBusiness) {
+          return res.status(404).json({
+            message: 'Business not found'
+          });
+        }
+        return foundBusiness
+          .destroy()
+          .then(() => {
+            res.status(200).json({
+              message: 'Business deleted successfully'
+            });
+          })
+          .catch((error) => {
+            res.status(500).json({
+              message: 'An error occured',
+              error: error.name
+            });
+          });
+      })
+      .catch((error) => {
+        res.status(500).json({
+          message: 'An error occured',
+          error: error.name
+        });
+      });
   }
   /**
    * Add review to business

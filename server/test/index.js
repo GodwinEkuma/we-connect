@@ -319,24 +319,39 @@ describe('POST businesses/:businessId/reviews', () => {
   });
 });
 
+
+// Test for getting undefind rouotes
+describe('GET undefined route', () => {
+  it('Should return 404 for the default route', (done) => {
+    chai.request(app)
+      .get('/another/undefined/route')
+      .end((err, res) => {
+        expect(res.status).to.equal(404);
+        done();
+      });
+  });
+});
+
 // Test for delete business
 describe('DELETE businesses/:businessId', () => {
   it('it should delete a business with :businessID', (done) => {
     chai.request(app)
-      .delete('/api/v1/businesses/4')
+      .delete('/api/v1/businesses/1')
+      .set('x-access-token', token)
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.a('object');
-        expect(res.body).to.have.property('business').a('string');
+        expect(res.body).to.have.property('message').a('string');
         done();
       });
   });
   it('it should not delete a buiness that does not exist', (done) => {
     chai.request(app)
       .delete('/api/v1/businesses/1000')
+      .set('x-access-token', token)
       .end((err, res) => {
         expect(res).to.have.status(404);
-        expect(res.body).to.have.property('business').a('string');
+        expect(res.body).to.have.property('message').a('string');
         done();
       });
   });
@@ -354,14 +369,3 @@ describe('GET /', () => {
   });
 });
 
-// Test for getting undefind rouotes
-describe('GET undefined route', () => {
-  it('Should return 404 for the default route', (done) => {
-    chai.request(app)
-      .get('/another/undefined/route')
-      .end((err, res) => {
-        expect(res.status).to.equal(404);
-        done();
-      });
-  });
-});
