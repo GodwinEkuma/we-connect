@@ -3,23 +3,39 @@ import Joi from 'joi';
 const validator = {
   profileValidator(req, res, next) {
     const result = Joi.validate(req.body, this.profileSchema, { abortEarly: false });
-    if (result.error) return res.status(400).json(result.error);
-    next();
+    if (result.error) {
+      return res.status(400).json({
+        message: 'The details supplied are in correct please check and try again'
+      });
+    }
+    return next();
   },
   signUpValidator(req, res, next) {
     const result = Joi.validate(req.body, this.signUpSchema, { abortEarly: false });
-    if (result.error) return res.status(400).json(result.error);
-    next();
+    if (result.error) {
+      return res.status(400).json({
+        message: 'The details supplied are in correct please check and try again'
+      });
+    }
+    return next();
   },
   signInValidator(req, res, next) {
     const result = Joi.validate(req.body, this.signInSchema, { abortEarly: false });
-    if (result.error) return res.status(400).json(result.error);
-    next();
+    if (result.error) {
+      return res.status(400).json({
+        message: 'The details supplied are in correct please check and try again'
+      });
+    }
+    return next();
   },
   reviewValidator(req, res, next) {
     const result = Joi.validate(req.body, this.reviewSchema, { abortEarly: false });
-    if (result.error) return res.status(400).json(result.error);
-    next();
+    if (result.error) {
+      return res.status(400).json({
+        message: 'The details supplied are in correct please check and try again'
+      });
+    }
+    return next();
   },
   profileSchema: Joi.object().keys({
     businessName: Joi.string().required(),

@@ -40,7 +40,7 @@ paths:
                 businessCategory: Web Development and Graphics
                 businessWebsite: https//:instrap.com
                 businessDescription: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                businessAddress: 15 Abayomi Street, Surulere, Lagos.
+                businessLocation: 15 Abayomi Street, Surulere, Lagos.
            
     post:
       summary: Register a business
@@ -82,7 +82,7 @@ paths:
         type: string
         description: summary of waht a business does
       - in: formData
-        name: businessAddress
+        name: businessLocation
         type: string
         description: Location of business
       responses:
@@ -99,7 +99,7 @@ paths:
                 businessCategory: Web Development and Graphics
                 businessWebsite: https//:instrap.com
                 businessDescription: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                businessAddress: 15 Abayomi Street, Surulere, Lagos.
+                businessLocation: 15 Abayomi Street, Surulere, Lagos.
         400:
           description: Invalid input
           examples:
@@ -176,7 +176,7 @@ paths:
                 businessCategory: Web Development and Graphics
                 businessWebsite: https//:instrap.com
                 businessDescription: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                businessAddress: 15 Abayomi Street, Surulere, Lagos.
+                businessLocation: 15 Abayomi Street, Surulere, Lagos.
         404:
           description: business not found
           examples:
