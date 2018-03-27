@@ -27,21 +27,29 @@ paths:
       produces:
       - application/json
       responses:
-        200:
-          description: An array of businesses in the databse
+        '200':
+          description: A list of  businesses in the databse
           examples:
             application/json:
-              error: false
+              message: Businesses has been retrieved succesfully
               business:
-              - id: 1
                 businessName: Instrap Solutions Limited
                 businessPhone: 08133512053
                 businessEmail: info@instrap.com
                 businessCategory: Web Development and Graphics
                 businessWebsite: https//:instrap.com
                 businessDescription: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                businessLocation: 15 Abayomi Street, Surulere, Lagos.
-           
+                businessAddress: 15 Abayomi Street, Surulere, Lagos.
+        '404':
+          description:  No business found
+          examples:
+            application/json:
+              message: No business has been added to the database
+        '500':
+          description: Server error 
+          examples:
+            application/json:
+              message: An internal error has occured
     post:
       summary: Register a business
       tags:
@@ -62,10 +70,6 @@ paths:
         type: string
         description: Business Mobile contact
       - in: formData
-        name: location
-        type: string
-        description: Location of business
-      - in: formData
         name: businessEmail
         type: string
         description: Email contact of business
@@ -82,15 +86,14 @@ paths:
         type: string
         description: summary of waht a business does
       - in: formData
-        name: businessLocation
+        name: businessAddress
         type: string
         description: Location of business
       responses:
-        201:
+        '201':
           description: Created Business Successfully
           examples:
             application/json:
-              error: false
               message: New Business Added
               business:
                 businessName: Instrap Solutions Limited
@@ -100,18 +103,34 @@ paths:
                 businessWebsite: https//:instrap.com
                 businessDescription: Lorem ipsum dolor sit amet, consectetur adipiscing elit
                 businessLocation: 15 Abayomi Street, Surulere, Lagos.
-        400:
+        '400':
           description: Invalid input
           examples:
             application/json:
-              error: true
-              message: 'Business Name Missing'
-
+              message: Business Name Missing
+        '401':
+          description: Unauthorized
+          examples:
+            application/json:
+              message: You need to sign in to continue or sign up to get started
+        '403':
+          description: Forbidden request
+          examples:
+            application/json:
+              message: Business already exist
+        '500':
+          description: Internal Server error
+          examples:
+            application/json:
+              message: An error has occured
+        security:
+        - weconnect_auth:
+            - read:userId
   /businesses?location={location}:
     get:
       tags:
       - business
-      summary: list businesses in location
+      summary: list businesses in a location
       operationId: location
       description: List all busnesses in a given location
       produces:
@@ -123,16 +142,26 @@ paths:
           description: The location of the business to retrieve
           type: string
       responses:
-        200:
-          description: A an array of businesses in a location
+        '200':
+          description: A list of businesses in a location
           examples:
             application/json:
-
+              message: Business in the location has been retrived successfully
+        '404':
+          description: A list of businesses in a location
+          examples:
+            application/json:
+              message: No business was found in this location
+        '500':
+          description: Server Error
+          examples:
+            application/json:
+              message: Internal Server error
   /businesses?category={category}:
     get:
       tags:
       - business
-      summary: list all businesses
+      summary: list all businesses in a business category
       operationId: category
       description: List all businesses in a category
       produces:
@@ -144,11 +173,21 @@ paths:
           description: The category of the business to retrieve
           type: string
       responses:
-        200:
-          description: An array of businesses in a category
+        '200':
+          description: A list of businesses in a category
           examples:
             application/json:
-
+              message: Businesses in the location has been retrived successfully
+        '404':
+          description: A list of businesses in a category
+          examples:
+            application/json:
+              message: No business was found in this category
+        '500':
+          description: Server Error
+          examples:
+            application/json:
+              message: Internal Server error
   /businesses/{id}:
     get:
       summary: Info for a specific business
@@ -163,12 +202,11 @@ paths:
           description: The id of the business to retrieve
           type: integer
       responses:
-        200:
+        '200':
           description: Success, business found
           examples:
             application/json:
-              message: 'Success'
-              error: false
+              message: Business details retrieved succesfully
               business:
                 businessName: Instrap Solutions Limited
                 businessPhone: 08133512053
@@ -177,14 +215,18 @@ paths:
                 businessWebsite: https//:instrap.com
                 businessDescription: Lorem ipsum dolor sit amet, consectetur adipiscing elit
                 businessLocation: 15 Abayomi Street, Surulere, Lagos.
-        404:
-          description: business not found
+        '404':
+          description: A list of businesses in a category
           examples:
             application/json:
-              error: 'true'
-              message: 'Business not found'
+              message: No business was found in this category
+        '500':
+          description: Server Error
+          examples:
+            application/json:
+              message: Internal Server error
     put:
-      summary: update specific business
+      summary: update a specific business
       tags:
         - business
       produces:
@@ -213,27 +255,26 @@ paths:
           type: string
           description: Category of business
       responses:
-        200:
-          description: Expected response to be valid request
+        '400':
+          description: Invalid input
           examples:
             application/json:
-              message: 'Success'
-              error: false
-              business:
-                id: 3
-                name: 'Bukka'
-                details: 'Delicious Foods'
-                location: 'Lagos'
-                category: 'Resturant'
-                reviews: []
-        404:
-          description: business not found
+              message: Business Name Missing
+        '401':
+          description: Unauthorized
           examples:
             application/json:
-              error: 'true'
-              message: 'Business not found'
+              message: You need to sign in to continue or sign up to get started
+        '500':
+          description: Internal Server error
+          examples:
+            application/json:
+              message: An error has occured
+        security:
+        - weconnect_auth:
+            - read: userId
     delete:
-      summary: delete specific business
+      summary: delete a specific business
       tags:
         - business
       produces:
@@ -245,18 +286,16 @@ paths:
           description: The id of the business to delete
           type: integer
       responses:
-        200:
+        '200':
           description: Business deleted
           examples:
             application/json:
-              error: false
-              message: 'Business deleted'
-        404:
+              message: Business deleted
+        '404':
           description: business not found
           examples:
             application/json:
-              error: 'true'
-              message: 'Business not found'
+              message: Business not found
 
   /businesses/{id}/reviews:
     get:
@@ -275,19 +314,15 @@ paths:
         required: true
       responses:
         200:
-          description: an array of reviews
+          description: a list of reviews about a business
           examples:
             application/json:
-              error: false
-              review:
-                reviewTitle: Excellent Service
-                reviewName: Godwin Ekuma
-                reviewDescription: Great Technology Firm
+              message: Reviews retrieved successfully
         404:
-          description: Business could not be found
+          description: No reviews
           examples:
             application/json:
-              error: true
+              message: No reviews was found for this business
     post:
       tags:
       - reviews
@@ -319,20 +354,34 @@ paths:
         required: true
 
       responses:
-        200:
-          description: Review Added
+        '201':
+          description: Created Business Successfully
           examples:
             application/json:
-              error: false
+              message: New Business Added
               review:
-                user: Solomon
-                content: Amazing service
-                stars: 5
-        404:
-          description: Business could not be found
+                reviewTitle: Excellent Job
+                reviewName: Godwin Ekuma
+                reviewDescription: Something something
+        '400':
+          description: Invalid input
           examples:
             application/json:
-              error: true
+              message: Review Name Missing
+        '401':
+          description: Unauthorized
+          examples:
+            application/json:
+              message: You need to sign in to continue or sign up to get started
+        '500':
+          description: Internal Server error
+          examples:
+            application/json:
+              message: An error has occured
+        security:
+        - weconnect_auth:
+            - read:userId
+            - read:businessId
 
   /auth/signin:
     post:
@@ -354,18 +403,25 @@ paths:
         type: string
         required: true
       responses:
-        200:
+        '200':
           description: Success, user is logged in
           examples:
             application/json:
-              error: false
               message: 'logged in successfully'
-        404:
-          description: User not found
+        '401':
+          description: Unauthorized
           examples:
             application/json:
-              error: true
               message: Unable to login
+        '500':
+          description: Internal Server error
+          examples:
+            application/json:
+              message: An error has occured
+        security:
+        - weconnect_auth:
+            - write:userId
+           
 
   /auth/signup:
     post:
@@ -406,20 +462,27 @@ paths:
         description: Lastname of the business owner
         type: string
         required: true
-
-
-
-
       responses:
-        200:
+        '201':
           description: Success, user is signed up
           examples:
             application/json:
-              error: false
               message: 'signup in successfully'
-        400:
-          description: Invalid Input
+        '400':
+          description: Invalid input
           examples:
             application/json:
-              error: true
-              message: Unable to login
+              message: Email Missing
+        '403':
+          description: Forbidden request
+          examples:
+            application/json:
+              message: User already exist
+        '500':
+          description: Internal Server error
+          examples:
+            application/json:
+              message: An error has occured
+        security:
+        - weconnect_auth:
+            - write:userId
