@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import models from '../models';
 import signToken from '../helpers/signToken';
 
@@ -31,11 +30,7 @@ export default class UserController {
             message: 'Email already exist try a new one'
           });
         }
-        const token = jwt.sign({
-          sub: user.id,
-          iat: new Date().getTime(),
-          exp: new Date().setDate(new Date().getDate() + 30)
-        }, process.env.JWT_SECRET);
+        const token = signToken(user);
         const name = `${user.firstName} ${user.lastName}`;
         return res.status(201).json({
           message: 'User has been creaated succesfully',
@@ -50,8 +45,9 @@ export default class UserController {
       .catch((error) => {
         if (error) {
           return res.status(500).json({
-            error: true,
-            message: 'Internal server error'
+            // error: true,
+            message: 'Internal server error',
+            error
           });
         }
       });

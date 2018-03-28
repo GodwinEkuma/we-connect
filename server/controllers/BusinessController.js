@@ -24,32 +24,29 @@ export default class BusinessController {
     } = req.body;
     const { userId } = req;
     Business
-      .findOne({ where: { businessName } })
-      .then((foundBusiness) => {
-        if (foundBusiness) {
-          return res.status(403).json({
-            message: 'A business with such name already exist'
-          });
+      .findOrCreate({
+        where: { businessName },
+        defaults: {
+          businessName,
+          businessAddress,
+          businessCategory,
+          businessEmail,
+          businessDescription,
+          businessPhone,
+          businessWebsite,
+          userId
         }
-        return Business
-          .create({
-            businessName,
-            businessAddress,
-            businessCategory,
-            businessEmail,
-            businessDescription,
-            businessPhone,
-            businessWebsite,
-            userId
-          });
       })
-      .then((newBusiness) => {
-        if (newBusiness) {
-          return res.status(201).json({
-            message: 'business has been added succesfully',
-            newBusiness
+      .spread((business, created) => {
+        if (created === false) {
+          return res.status(401).json({
+            message: 'Business with such name already exist'
           });
         }
+        return res.status(201).json({
+          message: 'Business creaated succesfully',
+          business
+        });
       })
       .catch((error) => {
         res.status(500).json({
