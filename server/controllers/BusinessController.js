@@ -167,7 +167,8 @@ export default class BusinessController {
           });
         }
         return res.status(200).json({
-          message: 'All businesses has been retrived succesfully'
+          message: 'All businesses has been retrived succesfully',
+          allBusiness
         });
       })
       .catch((error) => {
