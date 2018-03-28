@@ -23,25 +23,42 @@ export default class UserController {
       defaults: {
         email, password: hashPassword, firstName, lastName
       }
-    })
-      .spread((user, created) => {
-        if (created === false) {
-          return res.status(401).json({
-            message: 'Email already exist try a new one'
-          });
-        }
-        const token = signToken(user);
-        const name = `${user.firstName} ${user.lastName}`;
-        return res.status(201).json({
-          message: 'User has been creaated succesfully',
-          token,
-          user: {
-            id: user.id,
-            email: user.email,
-            name
-          }
+    }).then((user) => {
+      if (user[1] === false) {
+        return res.status(401).json({
+          message: 'A user with such email already exists please try a new one'
         });
-      })
+      }
+      const token = signToken(user);
+      const name = `${user[0].firstName} ${user[0].lastName}`;
+      return res.status(201).json({
+        message: 'User has been created succesfully',
+        token,
+        user: {
+          id: user[0].id,
+          email: user[0].email,
+          name
+        }
+      });
+    })
+      // .spread((user, created) => {
+      //   if (created === false) {
+      //     return res.status(401).json({
+      //       message: 'Email already exist try a new one'
+      //     });
+      //   }
+      //   const token = signToken(user);
+      //   const name = `${user.firstName} ${user.lastName}`;
+      //   return res.status(201).json({
+      //     message: 'User has been creaated succesfully',
+      //     token,
+      //     user: {
+      //       id: user.id,
+      //       email: user.email,
+      //       name
+      //     }
+      //   });
+      // })
       .catch((error) => {
         if (error) {
           return res.status(500).json({
