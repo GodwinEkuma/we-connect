@@ -73,7 +73,7 @@ export default class BusinessController {
         }
         return res.status(200).json({
           message: 'Business retrived succesfully',
-          foundBusiness
+          business: foundBusiness
         });
       })
       .catch((error) => {
@@ -114,7 +114,7 @@ export default class BusinessController {
           }
           return res.status(200).json({
             message: 'Businesses has been retrived successfully',
-            foundBusiness
+            business: foundBusiness
           });
         })
         .catch((error) => {
@@ -145,7 +145,7 @@ export default class BusinessController {
           }
           return res.status(200).json({
             message: 'Businesses has been retrived successfully',
-            foundBusiness
+            business: foundBusiness
           });
         })
         .catch((error) => {
@@ -165,7 +165,7 @@ export default class BusinessController {
         }
         return res.status(200).json({
           message: 'All businesses has been retrived succesfully',
-          allBusiness
+          business: allBusiness
         });
       })
       .catch((error) => {
@@ -209,7 +209,7 @@ export default class BusinessController {
             if (updatedBusiness) {
               return res.status(200).json({
                 message: 'Business has been updated succesfully',
-                updatedBusiness
+                business: updatedBusiness
               });
             }
           })
@@ -288,7 +288,7 @@ export default class BusinessController {
         if (newReview) {
           return res.status(201).json({
             message: 'A review has been added successfully',
-            newReview
+            review: newReview
           });
         }
       })
