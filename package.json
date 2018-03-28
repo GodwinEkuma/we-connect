@@ -11,7 +11,8 @@
     "test": "nyc --reporter=html --reporter=text mocha ./server/test/ --exit  --compilers js:babel-register",
     "clean": "rimraf dist",
     "build": "npm run clean && mkdir dist && babel server -s -d dist",
-    "start": "npm run build && babel-watch dist/app.js",
+    "start": "npm run build &&  node ./dist/app.js",
+    "prod-migrate": "sequelize db:migrate:undo:all --env production && sequelize db:migrate --env production",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test"
   },
@@ -39,6 +40,8 @@
     "morgan": "^1.9.0",
     "pg": "^7.4.1",
     "pg-hstore": "^2.3.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "sequelize": "^4.36.0",
     "sequelize-cli": "^4.0.0",
     "swagger-ui-express": "^2.0.15",

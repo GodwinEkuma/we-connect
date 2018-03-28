@@ -18,44 +18,37 @@ export default class UserController {
       email, password, firstName, lastName
     } = req.body;
     const hashPassword = bcrypt.hashSync(password, 10);
-    User.findOne({ where: { email } })
-      .then((foundUser) => {
-        if (foundUser) {
-          return res.status(403).json({
-            error: true,
-            message: 'A user with email already exist try a new email'
+    return User.findOrCreate({
+      where: { email },
+      defaults: {
+        email, password: hashPassword, firstName, lastName
+      }
+    })
+      .spread((user, created) => {
+        if (created === false) {
+          return res.status(401).json({
+            message: 'Email already exist try a new one'
           });
         }
-        User.create({
-          email,
-          password: hashPassword,
-          firstName,
-          lastName
-        })
-          .then((newUser) => {
-            if (newUser) {
-              const token = signToken(newUser);
-              return res.status(201).json({
-                error: false,
-                message: 'sign up succesful',
-                token,
-                user: {
-                  id: newUser.id,
-                  email: newUser.email,
-                  firstName: newUser.firstName,
-                  lastName: newUser.lastName
-                }
-              });
-            }
-          })
-          .catch((error) => {
-            if (error) {
-              return res.status(500).json({
-                error: true,
-                message: 'Internal server error'
-              });
-            }
+        const token = signToken(user);
+        const name = `${user.firstName} ${user.lastName}`;
+        return res.status(201).json({
+          message: 'User has been creaated succesfully',
+          token,
+          user: {
+            id: user.id,
+            email: user.email,
+            name
+          }
+        });
+      })
+      .catch((error) => {
+        if (error) {
+          return res.status(500).json({
+            error: true,
+            message: 'Internal server error'
           });
+        }
       });
   }
   /**
