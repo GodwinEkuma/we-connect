@@ -66,7 +66,7 @@ export default class BusinessController {
     Business
       .findById(businessId)
       .then((foundBusiness) => {
-        if (!foundBusiness) {
+        if (foundBusiness.length === 0) {
           return res.status(404).json({
             message: 'Business not found'
           });
@@ -107,7 +107,7 @@ export default class BusinessController {
         }
       })
         .then((foundBusiness) => {
-          if (!foundBusiness) {
+          if (foundBusiness.length === 0) {
             return res.status(404).json({
               message: 'There are no businesses found in this location'
             });
@@ -138,7 +138,7 @@ export default class BusinessController {
         }
       })
         .then((foundBusiness) => {
-          if (!foundBusiness) {
+          if (foundBusiness.length === 0) {
             return res.status(404).json({
               message: 'There are no businesses found in this location'
             });
@@ -158,7 +158,7 @@ export default class BusinessController {
     return Business
       .findAll()
       .then((allBusiness) => {
-        if (!allBusiness) {
+        if (allBusiness.length === 0) {
           return res.status(404).json({
             message: 'No business has been added to the database'
           });
