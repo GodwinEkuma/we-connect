@@ -12,7 +12,7 @@ export default class BusinessController {
    * @param {object} res
    * @returns {json} response
    */
-  static createBusiness(req, res) {
+  static create(req, res) {
     const {
       businessName,
       businessAddress,
@@ -39,13 +39,13 @@ export default class BusinessController {
       })
       .spread((business, created) => {
         if (created === false) {
-          return res.status(401).json({
+          return res.status(409).json({
             message: 'Business with such name already exist'
           });
         }
         return res.status(201).json({
           message: 'Business creaated succesfully',
-          business
+          data: business
         });
       })
       .catch((error) => {
@@ -61,19 +61,19 @@ export default class BusinessController {
    * @param {object} res
    * @returns {json} response
    */
-  static getBusiness(req, res) {
+  static get(req, res) {
     const { businessId } = req.params;
     Business
       .findById(businessId)
       .then((foundBusiness) => {
-        if (foundBusiness.length === 0) {
+        if (foundBusiness === null) {
           return res.status(404).json({
             message: 'Business not found'
           });
         }
         return res.status(200).json({
           message: 'Business retrived succesfully',
-          business: foundBusiness
+          data: foundBusiness
         });
       })
       .catch((error) => {
@@ -91,7 +91,7 @@ export default class BusinessController {
    * @param {object} res
    * @returns {json} response of all businesses
    */
-  static getAllBusiness(req, res) {
+  static getAll(req, res) {
     const { location, category } = req.params;
     if (location || category) {
       return Business.findAll({
@@ -114,7 +114,7 @@ export default class BusinessController {
           }
           return res.status(200).json({
             message: 'Businesses has been retrived successfully',
-            business: foundBusiness
+            data: foundBusiness
           });
         })
         .catch((error) => {
@@ -145,7 +145,7 @@ export default class BusinessController {
           }
           return res.status(200).json({
             message: 'Businesses has been retrived successfully',
-            business: foundBusiness
+            data: foundBusiness
           });
         })
         .catch((error) => {
@@ -165,7 +165,7 @@ export default class BusinessController {
         }
         return res.status(200).json({
           message: 'All businesses has been retrived succesfully',
-          business: allBusiness
+          data: allBusiness
         });
       })
       .catch((error) => {
@@ -181,7 +181,7 @@ export default class BusinessController {
    * @param {object} res
    * @returns {json} response
    */
-  static updateBusiness(req, res) {
+  static update(req, res) {
     const { businessId } = req.params;
     const {
       businessName, businessEmail, businessPhone, businessDescription,
@@ -190,20 +190,20 @@ export default class BusinessController {
     return Business
       .findById(businessId)
       .then((foundBusiness) => {
-        if (!foundBusiness) {
+        if (foundBusiness === null) {
           return res.status(404).json({
             message: 'Business not found'
           });
         }
         return foundBusiness
           .update({
-            businessName: businessName || foundBusiness.businessName,
-            businessEmail: businessEmail || foundBusiness.businessEmail,
-            businessPhone: businessPhone || foundBusiness.businessPhone,
-            businessCategory: businessCategory || foundBusiness.businessCategory,
-            businessDescription: businessDescription || foundBusiness.businessDescription,
-            businessWebsite: businessWebsite || foundBusiness.businessWebsite,
-            businessLocation: businessLocation || foundBusiness.businessLocation,
+            businessName,
+            businessEmail,
+            businessPhone,
+            businessCategory,
+            businessDescription,
+            businessWebsite,
+            businessLocation,
           })
           .then((updatedBusiness) => {
             if (updatedBusiness) {
@@ -233,14 +233,20 @@ export default class BusinessController {
    * @param {object} res
    * @returns {json} response
    */
-  static deleteBusiness(req, res) {
+  static delete(req, res) {
     const { businessId } = req.params;
+    const { userId } = req;
     return Business
       .findById(businessId)
       .then((foundBusiness) => {
-        if (!foundBusiness) {
+        if (foundBusiness === null) {
           return res.status(404).json({
-            message: 'Business not found'
+            message: 'You cannot delete a business that does not exist'
+          });
+        }
+        if (userId !== foundBusiness.userId) {
+          return res.status(401).json({
+            message: 'You cannot delete a business that does not belong to you'
           });
         }
         return foundBusiness
@@ -248,12 +254,6 @@ export default class BusinessController {
           .then(() => {
             res.status(200).json({
               message: 'Business deleted successfully'
-            });
-          })
-          .catch((error) => {
-            res.status(500).json({
-              message: 'An error occured',
-              error: error.name
             });
           });
       })
@@ -276,27 +276,35 @@ export default class BusinessController {
     const {
       reviewTitle, reviewName, reviewDescription
     } = req.body;
-    return Review
-      .create({
-        reviewTitle,
-        reviewName,
-        reviewDescription,
-        userId,
-        businessId
-      })
-      .then((newReview) => {
-        if (newReview) {
-          return res.status(201).json({
-            message: 'A review has been added successfully',
-            review: newReview
+    Business.findById(businessId)
+      .then((foundBusiness) => {
+        if (foundBusiness === null) {
+          return res.status(404).json({
+            message: 'You cannot review a business that does not exist'
           });
         }
-      })
-      .catch((error) => {
-        res.status(500).json({
-          message: 'An error occured',
-          error: error.name
-        });
+        return Review
+          .create({
+            reviewTitle,
+            reviewName,
+            reviewDescription,
+            userId,
+            businessId
+          })
+          .then((newReview) => {
+            if (newReview) {
+              return res.status(201).json({
+                message: 'A review has been added successfully',
+                review: newReview
+              });
+            }
+          })
+          .catch((error) => {
+            res.status(500).json({
+              message: 'An error occured',
+              error: error.name
+            });
+          });
       });
   }
   /**
@@ -312,16 +320,17 @@ export default class BusinessController {
         if (foundBusiness) {
           return Review
             .findAll({
-              where: { id: foundBusiness.id }
+              where: { businessId: foundBusiness.id }
             })
             .then((foundReviews) => {
               if (foundReviews.length === 0) {
                 return res.status(404).json({
-                  message: 'There are noe reviews for this business'
+                  message: 'There are no reviews for this business'
                 });
               }
               return res.status(200).json({
-                message: 'Reviews has been retrieved successfully'
+                message: 'Reviews has been retrieved successfully',
+                data: foundReviews
               });
             })
             .catch((error) => {
@@ -331,12 +340,6 @@ export default class BusinessController {
               });
             });
         }
-      })
-      .catch((error) => {
-        res.status(500).json({
-          message: 'An error occured',
-          error: error.name
-        });
       });
   }
 }

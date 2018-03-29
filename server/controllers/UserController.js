@@ -19,14 +19,14 @@ export default class UserController {
     } = req.body;
     const hashPassword = bcrypt.hashSync(password, 10);
     return User.findOrCreate({
-      where: { email },
+      where: { email: email.trim() },
       defaults: {
-        email, password: hashPassword, firstName, lastName
+        email: email.trim(), password: hashPassword, firstName, lastName
       }
     })
       .spread((user, created) => {
         if (created === false) {
-          return res.status(401).json({
+          return res.status(409).json({
             message: 'Email already exist try a new one'
           });
         }
@@ -34,11 +34,13 @@ export default class UserController {
         const name = `${user.firstName} ${user.lastName}`;
         return res.status(201).json({
           message: 'User has been creaated succesfully',
-          token,
-          user: {
-            id: user.id,
-            email: user.email,
-            name
+          data: {
+            token,
+            user: {
+              id: user.id,
+              email: user.email,
+              name
+            }
           }
         });
       })
@@ -63,12 +65,12 @@ export default class UserController {
     User.findOne({ where: { email } })
       .then((foundUser) => {
         if (!foundUser) {
-          return res.status(401).json({
+          return res.status(404).json({
             error: true,
             message: 'Email does not exist'
           });
         } else if (!bcrypt.compareSync(password, foundUser.password)) {
-          return res.status(401).json({
+          return res.status(404).json({
             error: true,
             message: 'the password does not match the user'
           });
@@ -77,11 +79,13 @@ export default class UserController {
         return res.status(200).json({
           error: false,
           message: 'Login was succesful',
-          token,
-          user: {
-            id: foundUser.id,
-            firstName: foundUser.firstName,
-            lastName: foundUser.lastName
+          data: {
+            token,
+            user: {
+              id: foundUser.id,
+              firstName: foundUser.firstName,
+              lastName: foundUser.lastName
+            }
           }
         });
       })

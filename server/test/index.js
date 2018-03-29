@@ -8,6 +8,7 @@ const { expect } = chai;
 chai.use(chaiHttp);
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTUyMjAzNzg0MjMzMiwiZXhwIjoxNTI0NjI5ODQyMzMyfQ.rOrcaIwrRXL3N-cNtKjSs7vbfIwJsBEYCJvGtRRDaT8';
 
+
 // Test for post auth/signup
 describe('POST auth/signup', () => {
   it('it should not post a signup  without email, password, business name, category and name', (done) => {
@@ -35,7 +36,7 @@ describe('POST auth/signup', () => {
       .end((err, res) => {
         expect(res).to.have.status(201);
         expect(res.body).to.be.a('object');
-        expect(res.body).to.have.property('message').a('string');
+        expect(res.body).to.have.property('data').a('object');
         done();
       });
   });
@@ -112,7 +113,7 @@ describe('POST businesses', () => {
         expect(res).to.have.status(201);
         expect(res.body).to.be.a('object');
         expect(res.body).to.have.property('message').a('string');
-        expect(res.body).to.have.property('newBusiness').a('object');
+        expect(res.body).to.have.property('data').a('object');
         done();
       });
   });
@@ -133,7 +134,7 @@ describe('POST businesses', () => {
         expect(res).to.have.status(201);
         expect(res.body).to.be.a('object');
         expect(res.body).to.have.property('message').a('string');
-        expect(res.body).to.have.property('newBusiness').a('object');
+        expect(res.body).to.have.property('data').a('object');
         done();
       });
   });
@@ -160,7 +161,7 @@ describe('GET business/id', () => {
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.have.property('message');
-        expect(res.body).to.have.property('foundBusiness');
+        expect(res.body).to.have.property('data');
         done();
       });
   });
@@ -241,7 +242,6 @@ describe('POST businesses/:businessId/reviews', () => {
       .end((err, res) => {
         expect(res).to.have.status(400);
         expect(res.body).to.be.a('object');
-        expect(res.body).to.be.a('object');
         expect(res.body).to.have.property('message');
         done();
       });
@@ -300,7 +300,6 @@ describe('PUT businesses/id', () => {
       })
       .end((err, res) => {
         expect(res).to.have.status(400);
-        expect(res.body).to.be.a('object');
         expect(res.body).to.be.a('object');
         expect(res.body).to.have.property('message');
         done();
